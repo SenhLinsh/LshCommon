@@ -1,6 +1,6 @@
 # lshapp-common
 
-[![Release](https://jitpack.io/v/com.github.SenhLinsh/LshUtils.svg)](https://jitpack.io/#com.github.SenhLinsh/LshUtils)
+[![Release](https://jitpack.io/v/com.github.SenhLinsh/lshapp-common.svg)](https://jitpack.io/#com.github.SenhLinsh/lshapp-common)
 
 
 ## Use
