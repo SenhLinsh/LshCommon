@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--常用颜色-->
+    <color name="color_theme_dark_blue">#00809c</color> <!--用于默认文字\icon\状态-->
+    <color name="color_theme_dark_blue_pressed">#00647a</color> <!--用于默认文字\icon\状态-->
+    <color name="color_theme_normal_blue">#00dce6</color> <!--用于按钮\可点击\选中\次提示效果-->
+    <color name="color_theme_light_blue">#d8eff2</color> <!--用于标签\标题栏等-->
+    <color name="color_theme_yellow">#ffc939</color> <!--用于页面重要提示\按钮\标识等-->
+    <color name="color_theme_line">#dfdfdf</color> <!--用于线\头像描边-->
+    <color name="color_theme_window_bg">#F9F9F9</color> <!--用于线\头像描边-->
+    <!--其他颜色-->
+    <color name="color_disable">#c7c7c7</color> <!--用于线\头像描边-->
+    <color name="color_text_disabled">#999</color>
+    <color name="color_white">#FFF</color>
+
+    <color name="text_title">#2F2F2F</color>
+    <color name="text_detail">#999DA0</color>
+    <color name="text_button">#5C6A84</color>
+    <color name="line_whitebg">#D9D9D9</color>
+    <color name="line_blackbg">#161A1D</color>
+    <color name="bg_title">#373B3E</color>
+    <color name="bg_white">#F4F4F4</color>
+    <color name="bg_nothing">#EBEBEB</color>
+    <color name="bg_green_select">#43C118</color>
+    <color name="bg_green_bt_normal">#43C118</color>
+    <color name="bg_green_bt_pressed">#298409</color>
+</resources>
