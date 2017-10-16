@@ -1,5 +1,8 @@
 # lshapp-common
 
+[![Release](https://jitpack.io/v/com.github.SenhLinsh/LshUtils.svg)](https://jitpack.io/#com.github.SenhLinsh/LshUtils)
+
+
 ## Use
 * Step 1. Add the JitPack repository to your build file
 
