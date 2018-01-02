@@ -3,7 +3,7 @@ package com.linsh.lshapp.common.tools;
 import android.app.Application;
 import android.util.Log;
 
-import com.linsh.lshutils.utils.Basic.LshIOUtils;
+import com.linsh.utilseverywhere.IOUtils;
 
 import java.io.File;
 
@@ -45,7 +45,7 @@ public class RealmTool {
                 Log.i("LshLog", "file not exists");
             }
         } finally {
-            LshIOUtils.close(realm);
+            IOUtils.close(realm);
         }
         return false;
     }

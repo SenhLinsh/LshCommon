@@ -3,9 +3,9 @@ package com.linsh.lshapp.common.tools;
 import android.os.Environment;
 
 import com.linsh.lshapp.common.common.Config;
-import com.linsh.lshutils.utils.Basic.LshApplicationUtils;
-import com.linsh.lshutils.utils.Basic.LshFileUtils;
-import com.linsh.lshutils.utils.Basic.LshIOUtils;
+import com.linsh.utilseverywhere.ContextUtils;
+import com.linsh.utilseverywhere.FileUtils;
+import com.linsh.utilseverywhere.IOUtils;
 
 import java.io.File;
 
@@ -34,17 +34,17 @@ public class CommonFileFactory {
     }
 
     private static File getCacheDir() {
-        File cacheDir = LshApplicationUtils.getContext().getExternalCacheDir();
+        File cacheDir = ContextUtils.getExternalCacheDir();
         if (cacheDir == null) {
-            cacheDir = LshApplicationUtils.getContext().getCacheDir();
+            cacheDir = ContextUtils.get().getCacheDir();
         }
         return cacheDir;
     }
 
     private static File getFileAir() {
-        File filesDir = LshApplicationUtils.getContext().getExternalFilesDir(null);
+        File filesDir = ContextUtils.get().getExternalFilesDir(null);
         if (filesDir == null) {
-            filesDir = LshApplicationUtils.getContext().getFilesDir();
+            filesDir = ContextUtils.getFilesDir();
         }
         return filesDir;
     }
@@ -62,11 +62,11 @@ public class CommonFileFactory {
                 return file;
             }
         } else {
-            LshFileUtils.makeParentDirs(file);
+            FileUtils.makeParentDirs(file);
         }
         Realm realm = Realm.getDefaultInstance();
         realm.writeCopyTo(file);
-        LshIOUtils.close(realm);
+        IOUtils.close(realm);
         return file;
     }
 
@@ -75,7 +75,7 @@ public class CommonFileFactory {
      */
     public static String getLogFile(String fileName) {
         File file = new File(getAppDir(), "log/" + fileName);
-        LshFileUtils.makeParentDirs(file);
+        FileUtils.makeParentDirs(file);
         return file.getAbsolutePath();
     }
 
@@ -86,6 +86,6 @@ public class CommonFileFactory {
     }
 
     private static void makeDir(File dir) {
-        LshFileUtils.makeDirs(dir);
+        FileUtils.makeDirs(dir);
     }
 }

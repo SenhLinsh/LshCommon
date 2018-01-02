@@ -2,7 +2,8 @@ package com.linsh.lshapp.common.common;
 
 import android.app.Application;
 
-import com.linsh.lshutils.LshUtils;
+import com.linsh.utilseverywhere.Utils;
+
 
 /**
  * <pre>
@@ -16,7 +17,7 @@ public abstract class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LshUtils.init(this);
+        Utils.init(this);
         Config.setConfig(getConfig());
     }
 

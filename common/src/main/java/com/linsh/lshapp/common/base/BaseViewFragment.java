@@ -5,7 +5,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
-import com.linsh.lshutils.view.LshColorDialog;
+import com.linsh.dialog.LshColorDialog;
+
 
 /**
  * Created by Senh Linsh on 17/4/24.

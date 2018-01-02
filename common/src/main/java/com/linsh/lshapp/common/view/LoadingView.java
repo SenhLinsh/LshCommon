@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linsh.lshapp.common.R;
-import com.linsh.lshutils.utils.Basic.LshLogUtils;
+import com.linsh.utilseverywhere.LogUtils;
 
 public class LoadingView extends FrameLayout {
 
@@ -153,7 +153,7 @@ public class LoadingView extends FrameLayout {
             return;
         }
 
-        LshLogUtils.d("LoadingView", "upThrow");
+        LogUtils.d("LoadingView", "upThrow");
         if (mUpAnimatorSet == null) {
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mShapeLoadingView, "translationY", mDistance, 0);
             ObjectAnimator scaleIndication = ObjectAnimator.ofFloat(mIndicationIm, "scaleX", 0.2f, 1);
@@ -207,7 +207,7 @@ public class LoadingView extends FrameLayout {
             return;
         }
 
-        LshLogUtils.d("LoadingView", "freeFall");
+        LogUtils.d("LoadingView", "freeFall");
         if (mDownAnimatorSet == null) {
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mShapeLoadingView, "translationY", 0, mDistance);
             ObjectAnimator scaleIndication = ObjectAnimator.ofFloat(mIndicationIm, "scaleX", 1, 0.2f);

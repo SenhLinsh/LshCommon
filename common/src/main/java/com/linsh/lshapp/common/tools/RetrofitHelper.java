@@ -1,7 +1,7 @@
 package com.linsh.lshapp.common.tools;
 
 import com.linsh.lshapp.common.adapter.converter.StringConverterFactory;
-import com.linsh.lshutils.utils.Basic.LshApplicationUtils;
+import com.linsh.utilseverywhere.ContextUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +54,7 @@ public class RetrofitHelper {
             synchronized (RetrofitHelper.class) {
                 if (mOkHttpClient == null) {
                     //设置Http缓存
-                    Cache cache = new Cache(new File(LshApplicationUtils.getContext().getCacheDir(), "HttpCache"), 1024 * 1024 * 10);
+                    Cache cache = new Cache(new File(ContextUtils.get().getCacheDir(), "HttpCache"), 1024 * 1024 * 10);
 
                     mOkHttpClient = new OkHttpClient.Builder()
                             .cache(cache)

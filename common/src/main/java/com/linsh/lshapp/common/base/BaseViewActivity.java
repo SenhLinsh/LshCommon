@@ -5,12 +5,12 @@ import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
+import com.linsh.dialog.LshColorDialog;
 import com.linsh.lshapp.common.R;
 import com.linsh.lshapp.common.view.ShapeLoadingDialog;
-import com.linsh.lshutils.utils.Basic.LshStringUtils;
-import com.linsh.lshutils.utils.Basic.LshToastUtils;
-import com.linsh.lshutils.utils.LshResourceUtils;
-import com.linsh.lshutils.view.LshColorDialog;
+import com.linsh.utilseverywhere.ResourceUtils;
+import com.linsh.utilseverywhere.StringUtils;
+import com.linsh.utilseverywhere.ToastUtils;
 
 import java.util.List;
 
@@ -95,8 +95,8 @@ public abstract class BaseViewActivity<T extends BaseContract.BasePresenter> ext
         LshColorDialog.TextDialogBuilder dialogBuilder =
                 new LshColorDialog(getActivity())
                         .buildText()
-                        .setBgColor(LshResourceUtils.getColor(R.color.color_theme_dark_blue))
-                        .setTitle(LshStringUtils.isEmpty(title) ? "提示" : title)
+                        .setBgColor(ResourceUtils.getColor(R.color.color_theme_dark_blue))
+                        .setTitle(StringUtils.isEmpty(title) ? "提示" : title)
                         .setContent(content);
 
         dialogBuilder.setPositiveButton(positive == null ? "确定" : positive, onPositiveListener);
@@ -173,7 +173,7 @@ public abstract class BaseViewActivity<T extends BaseContract.BasePresenter> ext
 
     @Override
     public void showToast(String content) {
-        LshToastUtils.show(content);
+        ToastUtils.show(content);
     }
 
     @Override
