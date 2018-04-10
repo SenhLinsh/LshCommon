@@ -1,97 +1,51 @@
 package com.linsh.lshapp.common.base;
 
-import android.content.pm.ActivityInfo;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
-import com.linsh.lshapp.common.tools.LshActivityStatusTool;
+import com.linsh.base.helper.interf.DialogHelperInterface;
+import com.linsh.base.helper.BaseHelperActivity;
+import com.linsh.lshapp.common.helper.act.StatusHelper;
+import com.linsh.lshapp.common.helper.act.SystemDialogHelper;
 import com.linsh.utilseverywhere.KeyboardUtils;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+public abstract class BaseActivity extends BaseHelperActivity {
 
-public abstract class BaseActivity extends AppCompatActivity {
-
-    private LshActivityStatusTool mStatusTool = new LshActivityStatusTool();
+    private StatusHelper mStatusHelper;
+    private DialogHelperInterface mDialogHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayout());
-        // 设置屏幕方向
-        setScreenOrientation();
-        // 初始化布局
-        initView();
-        initView(savedInstanceState);
-
-        mStatusTool.onCreate();
-    }
-
-    protected abstract int getLayout();
-
-    protected abstract void initView();
-
-    protected void initView(Bundle savedInstanceState) {
-    }
-
-    @IntDef({ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE,
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT,
-            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Orientation {
-    }
-
-    private void setScreenOrientation() {
-        setRequestedOrientation(getScreenOrientation());
-    }
-
-    @Orientation
-    protected abstract int getScreenOrientation();
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mStatusTool.onStart();
-    }
-
-    protected void onResume() {
-        super.onResume();
-        mStatusTool.isOnResumed();
-    }
-
-    protected void onPause() {
-        super.onPause();
-        mStatusTool.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mStatusTool.onStop();
+        mStatusHelper = new StatusHelper();
+        if (mDialogHelper == null)
+            mDialogHelper = new SystemDialogHelper(this);
+        addHelper(mStatusHelper, mDialogHelper);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mStatusTool.onDestroy();
         // 关闭键盘
         KeyboardUtils.clearFocusAndHideKeyboard(this);
     }
 
-    public LshActivityStatusTool getStatus() {
-        return mStatusTool;
-    }
-
-    public boolean isOnDestroyed() {
-        return mStatusTool.isOnDestroyed();
-    }
-
-    protected BaseActivity getActivity() {
+    protected Activity getActivity() {
         return this;
     }
 
+    public StatusHelper getStatusHelper() {
+        return mStatusHelper;
+    }
+
+    public void setDialogHelper(DialogHelperInterface dialogHelper) {
+        if (mDialogHelper != null) removeHelper(mDialogHelper);
+        addHelper(dialogHelper);
+        mDialogHelper = dialogHelper;
+    }
+
+    public DialogHelperInterface getDialogHelper() {
+        return mDialogHelper;
+    }
 }

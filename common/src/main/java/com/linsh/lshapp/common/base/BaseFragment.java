@@ -1,5 +1,6 @@
 package com.linsh.lshapp.common.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,7 @@ import android.widget.FrameLayout;
 /**
  * Created by Senh Linsh on 16/12/5.
  */
-public abstract class BaseFragment<T extends BaseActivity> extends Fragment {
+public abstract class BaseFragment<T extends Activity> extends Fragment {
 
     @Nullable
     @Override

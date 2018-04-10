@@ -17,7 +17,7 @@ import com.linsh.utilseverywhere.SystemUtils;
  * Created by linsh on 17/2/2.
  */
 
-public abstract class BaseToolbarActivity<T extends BaseContract.BasePresenter> extends BaseViewActivity<T> {
+public abstract class BaseToolbarActivity extends BaseViewActivity {
 
     private Toolbar mToolbar;
 
@@ -48,6 +48,10 @@ public abstract class BaseToolbarActivity<T extends BaseContract.BasePresenter> 
         // 填充子布局, 由子类返回布局id
         getLayoutInflater().inflate(getLayout(), (ViewGroup) view, true);
         setContentView(view);
+    }
+
+    private int getLayout() {
+        return 0;
     }
 
     @Override
