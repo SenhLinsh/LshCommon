@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.linsh.utilseverywhere.IOUtils;
+import com.linsh.utilseverywhere.SharedPreferenceUtils;
 
 import java.io.File;
 
@@ -20,6 +21,8 @@ import io.realm.RealmMigration;
  */
 public class RealmTool {
 
+    private static final String LAST_BACKUP_REALM_TIME = "last_backup_realm_time";
+
     public static void init(Application application, String name, int version, RealmMigration magration) {
         Realm.init(application);
         RealmConfiguration config = new RealmConfiguration.Builder()
@@ -33,7 +36,7 @@ public class RealmTool {
 
     // 检查 Realm 数据库是否需要备份
     public static boolean checkBackupRealm() {
-        long lastBackupRealmTime = CommonSpTools.getLastBackupRealmTime();
+        long lastBackupRealmTime = getLastBackupRealmTime();
 
         Realm realm = Realm.getDefaultInstance();
         File file = new File(realm.getPath());
@@ -48,5 +51,13 @@ public class RealmTool {
             IOUtils.close(realm);
         }
         return false;
+    }
+
+    public static long getLastBackupRealmTime() {
+        return SharedPreferenceUtils.getLong(LAST_BACKUP_REALM_TIME, 0);
+    }
+
+    public static void refreshLastBackupRealmTime() {
+        SharedPreferenceUtils.putLong(LAST_BACKUP_REALM_TIME, System.currentTimeMillis());
     }
 }

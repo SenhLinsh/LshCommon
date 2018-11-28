@@ -1,19 +1,1 @@
 include ':common'
-
-try {
-    include ':app'
-
-    include ':LshBase'
-    project(':LshBase').projectDir = new File('../LshBase/')
-    include ':LshBase:base'
-
-    include ':Utils-Everywhere'
-    project(':Utils-Everywhere').projectDir = new File('../Utils-Everywhere/')
-    include ':Utils-Everywhere:utils'
-
-    include ':LshUtils'
-    project(':LshUtils').projectDir = new File('../LshUtils/')
-    include ':LshUtils:lshutils'
-} catch (Exception ignored) {
-
-}

@@ -1,10 +1,6 @@
 package com.linsh.lshapp.common.base;
 
 
-import com.linsh.base.BaseContract;
-
-import org.jetbrains.annotations.NotNull;
-
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -16,7 +12,7 @@ import io.reactivex.disposables.Disposable;
  *    desc   : BasePresenter 的实现类, 实现 Presenter 的基础功能
  * </pre>
  */
-public abstract class BasePresenterImpl<T extends BaseContract.View<BaseContract.Presenter<T>>> implements BaseContract.Presenter<T> {
+public abstract class BasePresenterImpl<T> {
 
     private T mView;
     private CompositeDisposable mCompositeDisposable;
@@ -30,24 +26,21 @@ public abstract class BasePresenterImpl<T extends BaseContract.View<BaseContract
         attachView();
     }
 
-    @Override
+    protected abstract void attachView();
+
     public void detachView() {
         mCompositeDisposable.dispose();
         RxBusSubscriptions.clear();
         RxBusSubscriptions.dispose();
     }
 
-    @Override
     public void subscribe() {
     }
 
-    @Override
     public void unsubscribe() {
         mCompositeDisposable.clear();
     }
 
-    @NotNull
-    @Override
     public T getView() {
         return mView;
     }

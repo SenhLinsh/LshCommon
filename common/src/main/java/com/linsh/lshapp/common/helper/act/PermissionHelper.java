@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.SparseArray;
 
-import com.linsh.base.helper.ActivityHelper;
+import com.linsh.protocol.activity.ActivitySubscribe;
 import com.linsh.utilseverywhere.PermissionUtils;
 
 /**
@@ -18,13 +18,14 @@ import com.linsh.utilseverywhere.PermissionUtils;
  *    desc   :
  * </pre>
  */
-public class PermissionHelper extends ActivityHelper {
+public class PermissionHelper implements ActivitySubscribe.OnRequestPermissionsResult {
 
     private static int sRequestCode = 666;
     private SparseArray<PermissionListener> listeners;
     private Activity mActivity;
 
-    public PermissionHelper(Activity activity) {
+    @Override
+    public void attach(Activity activity) {
         mActivity = activity;
     }
 
@@ -49,7 +50,6 @@ public class PermissionHelper extends ActivityHelper {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionListener listener = listeners.get(requestCode);
         if (listener != null) {
             for (int i = 0; i < permissions.length; i++) {

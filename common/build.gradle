@@ -1,15 +1,14 @@
 apply plugin: 'com.android.library'
-apply plugin: 'realm-android'
-apply plugin: 'kotlin-android'
+//apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "0.3.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -42,29 +41,20 @@ android {
         archives sourcesJar
         archives javadocJar
     }
-    ///////// 以上为配置 library 注释在打包jar后保留
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     // glide
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     //////////  个人
-//    implementation 'com.github.SenhLinsh:Utils-Everywhere:2.0.1'
-    compile 'com.github.SenhLinsh:LshViews:1.0.2'
-
-    try {
-        compile project(':LshUtils:lshutils')
-        compile project(':LshBase:base')
-    } catch (Exception ignored) {
-        compile 'com.github.SenhLinsh:LshUtils:2.0.2'
-        compile 'com.github.SenhLinsh:LshBase:1.0.0'
-    }
+    implementation 'com.github.SenhLinsh:LshApp-protocol-impl:0.3.0'
+    implementation 'com.github.SenhLinsh:Utils-Everywhere:2.1.1'
 }

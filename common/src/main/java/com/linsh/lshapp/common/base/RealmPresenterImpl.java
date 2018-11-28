@@ -1,7 +1,5 @@
 package com.linsh.lshapp.common.base;
 
-import com.linsh.base.BaseContract;
-
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
@@ -9,7 +7,7 @@ import io.realm.RealmChangeListener;
  * Created by Senh Linsh on 17/4/24.
  */
 
-public abstract class RealmPresenterImpl<T extends BaseContract.View<BaseContract.Presenter<T>>> extends BasePresenterImpl<T> implements RealmChangeListener<Realm> {
+public abstract class RealmPresenterImpl<T> extends BasePresenterImpl<T> implements RealmChangeListener<Realm> {
 
     private Realm mRealm;
     private boolean mUnsubscribed;
