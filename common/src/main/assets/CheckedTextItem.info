@@ -1,7 +1,6 @@
 {
 	name: "LinearLayout",
 	width: "MP",
-	background: "#F00",
 	height: "WC",
 	gravity: "CV",
 	padding: "10dp",
