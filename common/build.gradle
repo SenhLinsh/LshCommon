@@ -1,5 +1,8 @@
-apply plugin: 'com.android.library'
-//apply plugin: 'realm-android'
+if (isRunAlone.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 
 android {
     compileSdkVersion 28
@@ -9,15 +12,26 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "0.3.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    sourceSets {
+        main {
+            if (isRunAlone.toBoolean()) {
+                manifest.srcFile 'src/debug/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 
     ///////// 以下为配置 library 注释在打包jar后保留
@@ -55,6 +69,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     //////////  个人
-    implementation 'com.github.SenhLinsh:LshApp-protocol-impl:0.3.0'
+    implementation 'com.github.SenhLinsh:LshApp-protocol-impl:0.11.0'
     implementation 'com.github.SenhLinsh:Utils-Everywhere:2.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

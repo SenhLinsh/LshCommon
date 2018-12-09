@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.linsh.protocol.impl.activity.ObservableActivity;
 import com.linsh.utilseverywhere.KeyboardUtils;
 
 public abstract class BaseActivity extends ObservableActivity {

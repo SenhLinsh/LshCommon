@@ -10,6 +10,7 @@ import com.linsh.protocol.config.ImageConfig;
 import com.linsh.protocol.config.LogConfig;
 import com.linsh.protocol.config.ThreadConfig;
 import com.linsh.protocol.config.UIConfig;
+import com.linsh.protocol.config.ValueConfig;
 import com.linsh.protocol.db.DbManager;
 import com.linsh.protocol.file.FileManager;
 import com.linsh.protocol.http.HttpManager;
@@ -19,10 +20,10 @@ import com.linsh.protocol.impl.db.RealmDbManager;
 import com.linsh.protocol.impl.file.LshFileManager;
 import com.linsh.protocol.impl.http.RetrofitManager;
 import com.linsh.protocol.impl.image.GlideImageManager;
-import com.linsh.protocol.impl.log.impl.LshLogManager;
+import com.linsh.protocol.impl.log.LogManagerFactory;
 import com.linsh.protocol.impl.thread.LshThreadManager;
 import com.linsh.protocol.impl.ui.LshUIManager;
-import com.linsh.protocol.impl.value.LshValueManagerImpl;
+import com.linsh.protocol.impl.value.LshValueManager;
 import com.linsh.protocol.log.LogManager;
 import com.linsh.protocol.thread.ThreadManager;
 import com.linsh.protocol.ui.UIManager;
@@ -38,6 +39,7 @@ import com.linsh.protocol.value.ValueManager;
  */
 public class LshManagerFactory implements ManagerFactory {
 
+    private final Config config;
     private final ActivityManager activityManager;
     private final DbManager dbManager;
     private final FileManager fileManager;
@@ -49,15 +51,21 @@ public class LshManagerFactory implements ManagerFactory {
     private final ValueManager valueManager;
 
     public LshManagerFactory(Config config) {
+        this.config = config;
         this.activityManager = new LshActivityManager();
-        this.dbManager = new RealmDbManager();
-        this.fileManager = new LshFileManager();
-        this.httpManager = new RetrofitManager(config.http().baseUrl());
-        this.imageManager = new GlideImageManager();
-        this.logManager = new LshLogManager();
-        this.threadManager = new LshThreadManager();
-        this.uiManager = new LshUIManager();
-        this.valueManager = new LshValueManagerImpl(config.value());
+        this.dbManager = new RealmDbManager(config.db());
+        this.fileManager = new LshFileManager(config.file());
+        this.httpManager = new RetrofitManager(config.http());
+        this.imageManager = new GlideImageManager(config.image());
+        this.logManager = LogManagerFactory.create(config.log());
+        this.threadManager = new LshThreadManager(config.thread());
+        this.uiManager = new LshUIManager(config.ui());
+        this.valueManager = new LshValueManager(config.value());
+    }
+
+    @Override
+    public Config config() {
+        return config;
     }
 
     @Override
@@ -72,7 +80,7 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public DbManager db(DbConfig config) {
-        return dbManager;
+        return new RealmDbManager(config);
     }
 
     @Override
@@ -82,7 +90,7 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public FileManager file(FileConfig config) {
-        return fileManager;
+        return new LshFileManager(config);
     }
 
     @Override
@@ -92,7 +100,7 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public HttpManager http(HttpConfig config) {
-        return httpManager;
+        return new RetrofitManager(config);
     }
 
     @Override
@@ -102,7 +110,7 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public ImageManager image(ImageConfig config) {
-        return imageManager;
+        return new GlideImageManager(config);
     }
 
     @Override
@@ -112,7 +120,7 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public LogManager log(LogConfig config) {
-        return logManager;
+        return LogManagerFactory.create(config);
     }
 
     @Override
@@ -122,7 +130,7 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public ThreadManager thread(ThreadConfig config) {
-        return threadManager;
+        return new LshThreadManager(config);
     }
 
     @Override
@@ -132,11 +140,16 @@ public class LshManagerFactory implements ManagerFactory {
 
     @Override
     public UIManager ui(UIConfig config) {
-        return uiManager;
+        return new LshUIManager(config);
     }
 
     @Override
     public ValueManager value() {
         return valueManager;
+    }
+
+    @Override
+    public ValueManager value(ValueConfig config) {
+        return new LshValueManager(config);
     }
 }

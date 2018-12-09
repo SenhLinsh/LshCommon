@@ -1,0 +1,16 @@
+{
+	name: "LinearLayout",
+	width: "MP",
+	height: "WC",
+	gravity: "Center",
+	padding: 20,
+
+	children: [
+		{
+			name: "TextView",
+			id: "tv_text",
+			gravity: "C",
+			textSize: "17dp"
+		}
+	]
+}

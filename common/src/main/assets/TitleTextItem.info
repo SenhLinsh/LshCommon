@@ -1,0 +1,24 @@
+{
+	name: "LinearLayout",
+	width: "MP",
+	height: "WC",
+	orientation: "V",
+	gravity: "CV",
+	padding: 20,
+
+	children: [
+		{
+			name: "TextView",
+			id: "tv_title",
+			textSize: "20dp",
+			textColor: "#000",
+			layout_gravity: "center"
+		},
+		{
+			name: "TextView",
+			id: "tv_text",
+			margins: [0, "5dp", 0, 0],
+			textSize: "17dp"
+		}
+	]
+}
