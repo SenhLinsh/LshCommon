@@ -1,0 +1,22 @@
+{
+	name: "LinearLayout",
+	width: "MP",
+	background: "#F00",
+	height: "WC",
+	gravity: "CV",
+	padding: "10dp",
+
+	children: [
+		{
+			name: "TextView",
+			textSize: "17dp",
+			weight: 1,
+			paddingLeft: "10dp"
+		},
+		{
+		    name: "CheckBox",
+		    clickable: false,
+		    margins: ["10dp",0,0,0]
+		}
+	]
+}

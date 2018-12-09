@@ -3,6 +3,8 @@ package com.linsh.lshapp.common.base;
 import android.app.Application;
 
 import com.linsh.lshapp.common.common.LshManagerFactory;
+import com.linsh.lshapp.common.helper.view.CheckedTextItemViewProtocol;
+import com.linsh.lshapp.common.helper.view.CheckedTextItemViewProtocolImpl;
 import com.linsh.lshapp.common.helper.view.JsonIdTextItemViewProtocol;
 import com.linsh.lshapp.common.helper.view.JsonIdTitleTextItemViewProtocol;
 import com.linsh.lshapp.common.helper.view.TextItemViewProtocol;
@@ -28,8 +30,9 @@ public abstract class BaseApplication extends Application {
         Utils.init(this);
         ClientIniter.initClient(new LshManagerFactory(getConfig()));
 
-        Client.ui().view().register().registerProtocol(TitleTextItemViewProtocol.class, JsonIdTitleTextItemViewProtocol.class, true);
         Client.ui().view().register().registerProtocol(TextItemViewProtocol.class, JsonIdTextItemViewProtocol.class, true);
+        Client.ui().view().register().registerProtocol(TitleTextItemViewProtocol.class, JsonIdTitleTextItemViewProtocol.class, true);
+        Client.ui().view().register().registerProtocol(CheckedTextItemViewProtocol.class, CheckedTextItemViewProtocolImpl.class, true);
     }
 
     protected abstract Config getConfig();
