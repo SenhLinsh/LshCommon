@@ -2,9 +2,12 @@ package com.linsh.lshapp.common.base;
 
 import android.os.Bundle;
 
+import com.linsh.base.LshActivity;
 import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.lshapp.common.mvp.Contract;
 import com.linsh.lshapp.common.mvp.MvpActivityDelegate;
+
+import java.io.Serializable;
 
 import androidx.annotation.Nullable;
 
@@ -23,7 +26,9 @@ public abstract class BaseActivity<P extends Contract.Presenter> extends Delegat
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mvpDelegate = new MvpActivityDelegate(initPresenter(), this);
+        Serializable extra = LshActivity.intent(getIntent()).getSerializableExtra();
+        P presenter = (extra instanceof Contract.Presenter) ? (P) extra : initPresenter();
+        mvpDelegate = new MvpActivityDelegate(presenter, this);
         mvpDelegate.onCreate(savedInstanceState);
     }
 
@@ -38,5 +43,11 @@ public abstract class BaseActivity<P extends Contract.Presenter> extends Delegat
     @Override
     public P getPresenter() {
         return mvpDelegate.getPresenter();
+    }
+
+    public static <P extends Contract.Presenter> void intent(
+            Class<? extends BaseActivity<P>> classOfActivity, Class<? extends P> classOfPresenter) {
+        LshActivity.intent(classOfActivity)
+                .putExtra(classOfPresenter);
     }
 }
