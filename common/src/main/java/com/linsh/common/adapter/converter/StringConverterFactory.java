@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.adapter.converter;
+package com.linsh.common.adapter.converter;
 
 import androidx.annotation.Nullable;
 

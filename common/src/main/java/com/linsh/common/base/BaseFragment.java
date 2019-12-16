@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.base;
+package com.linsh.common.base;
 
 import android.app.Activity;
 import android.os.Bundle;

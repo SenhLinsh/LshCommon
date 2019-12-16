@@ -1,15 +1,14 @@
-package com.linsh.lshapp.common.base;
+package com.linsh.common.base;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import com.linsh.base.LshActivity;
-import com.linsh.base.activity.impl.DelegateActivity;
-import com.linsh.lshapp.common.mvp.Contract;
-import com.linsh.lshapp.common.mvp.MvpActivityDelegate;
+import com.linsh.common.mvp.Contract;
+import com.linsh.common.mvp.MvpActivityDelegate;
 
 import java.io.Serializable;
-
-import androidx.annotation.Nullable;
 
 /**
  * <pre>
@@ -19,7 +18,7 @@ import androidx.annotation.Nullable;
  *    desc   :
  * </pre>
  */
-public abstract class BaseViewActivity<P extends Contract.Presenter> extends DelegateActivity implements Contract.View<P> {
+public abstract class BaseViewActivity<P extends Contract.Presenter> extends BaseActivity implements Contract.View<P> {
 
     private MvpActivityDelegate<P, Contract.View> mvpDelegate;
 

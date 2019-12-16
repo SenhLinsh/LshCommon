@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.tools;
+package com.linsh.common.tools;
 
 
 import com.google.gson.JsonSyntaxException;

@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.subscribe;
+package com.linsh.common.subscribe;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

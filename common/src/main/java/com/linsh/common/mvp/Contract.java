@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.mvp;
+package com.linsh.common.mvp;
 
 /**
  * <pre>

@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.mvp;
+package com.linsh.common.mvp;
 
 /**
  * <pre>
@@ -8,7 +8,7 @@ package com.linsh.lshapp.common.mvp;
  *    desc   :
  * </pre>
  */
-public abstract class BasePresenterImpl<V extends Contract.View> implements Contract.Presenter<V> {
+public abstract class BasePresenterImpl<V extends Contract.View> implements com.linsh.common.mvp.Contract.Presenter<V> {
 
     private V mView;
 

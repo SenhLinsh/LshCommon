@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.api;
+package com.linsh.common.api;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;

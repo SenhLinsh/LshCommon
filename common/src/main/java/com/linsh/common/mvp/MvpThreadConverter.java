@@ -1,4 +1,4 @@
-package com.linsh.lshapp.common.mvp;
+package com.linsh.common.mvp;
 
 import com.linsh.base.LshLog;
 import com.linsh.base.LshThread;
@@ -62,6 +62,7 @@ public class MvpThreadConverter {
             }
             viewClass = viewClass.getSuperclass();
         }
+        LshLog.d(TAG, "delegateView: new proxy instance for Interfaces " + list.toString());
         return (T) Proxy.newProxyInstance(viewClass.getClassLoader(), list.toArray(new Class[list.size()]), new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -110,6 +111,7 @@ public class MvpThreadConverter {
             }
             viewClass = viewClass.getSuperclass();
         }
+        LshLog.d(TAG, "delegatePresenter: new proxy instance for Interfaces " + list.toString());
         return (T) Proxy.newProxyInstance(viewClass.getClassLoader(), list.toArray(new Class[list.size()]), new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
