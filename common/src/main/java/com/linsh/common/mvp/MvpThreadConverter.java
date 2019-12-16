@@ -1,5 +1,8 @@
 package com.linsh.common.mvp;
 
+import android.os.Handler;
+import android.os.HandlerThread;
+
 import com.linsh.base.LshLog;
 import com.linsh.base.LshThread;
 import com.linsh.utilseverywhere.ThreadUtils;
@@ -8,11 +11,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <pre>
@@ -38,9 +36,14 @@ public class MvpThreadConverter {
      * 内部类方式声明单例
      */
     static class Holder {
-        static final ThreadPoolExecutor MVP_PRESENTER_THREAD = new ThreadPoolExecutor(0, 1,
-                10, TimeUnit.MINUTES,
-                new LinkedBlockingQueue<>(), new DefaultThreadFactory());
+        static final Handler MVP_PRESENTER_THREAD = getHandlerTHread();
+
+        private static Handler getHandlerTHread() {
+            HandlerThread handlerThread = new HandlerThread("MvpPresenterThread");
+            handlerThread.start();
+            return new Handler(handlerThread.getLooper());
+        }
+
     }
 
     /**
@@ -118,7 +121,7 @@ public class MvpThreadConverter {
                 LshLog.d(TAG, "delegatePresenter: presenter=" + presenter.getClass().getSimpleName()
                         + ", method=" + method.getName());
                 if (method.getReturnType() == void.class && ThreadUtils.isMainThread()) {
-                    Holder.MVP_PRESENTER_THREAD.execute(new Runnable() {
+                    Holder.MVP_PRESENTER_THREAD.post(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -139,23 +142,5 @@ public class MvpThreadConverter {
                 return method.invoke(presenter, args);
             }
         });
-    }
-
-    /**
-     * View 层在调用 Presenter 接口时, 默认使用的线程池. 该线程池只有一个线程, 主要是为了避免 Presenter 在使用过程中出现
-     * 线程同步问题, 因为需要在使用多线程时, 需要在 presenter 中自己使用多线程, 或在 Contract.Presenter 中定义接口时,
-     * 使用多线程相关的注解 (暂未开发)
-     */
-    private static class DefaultThreadFactory implements ThreadFactory {
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r, "MvpPresenterThread-" + threadNumber.getAndIncrement());
-            if (t.isDaemon())
-                t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
-            return t;
-        }
     }
 }
