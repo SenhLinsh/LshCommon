@@ -1,0 +1,10 @@
+android {
+    signingConfigs {
+        linsh {
+            keyAlias 'linsh'
+            keyPassword '123456'
+            storeFile file("../LshCommon/keystore/SenhLinsh.jks")
+            storePassword '123456'
+        }
+    }
+}
