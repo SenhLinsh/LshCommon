@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.linsh.base.LshActivity;
 import com.linsh.common.mvp.Contract;
-import com.linsh.common.mvp.MvpActivityDelegate;
+import com.linsh.common.mvp.TransThreadMvpDelegate;
 
 import java.io.Serializable;
 
@@ -20,15 +20,15 @@ import java.io.Serializable;
  */
 public abstract class BaseViewActivity<P extends Contract.Presenter> extends BaseActivity implements Contract.View<P> {
 
-    private MvpActivityDelegate<P, Contract.View> mvpDelegate;
+    private TransThreadMvpDelegate<P, Contract.View> mvpDelegate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Serializable extra = LshActivity.intent(getIntent()).getSerializableExtra();
         P presenter = (extra instanceof Contract.Presenter) ? (P) extra : initPresenter();
-        mvpDelegate = new MvpActivityDelegate(presenter, this);
-        mvpDelegate.onCreate(savedInstanceState);
+        mvpDelegate = new TransThreadMvpDelegate<>(presenter, this);
+        mvpDelegate.attachView();
     }
 
     protected abstract P initPresenter();
@@ -36,7 +36,7 @@ public abstract class BaseViewActivity<P extends Contract.Presenter> extends Bas
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mvpDelegate.onDestroy();
+        mvpDelegate.detachView();
     }
 
     @Override

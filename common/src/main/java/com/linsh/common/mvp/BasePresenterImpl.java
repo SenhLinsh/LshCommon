@@ -14,7 +14,7 @@ public abstract class BasePresenterImpl<V extends Contract.View> implements com.
 
     @Override
     public void attachView(V view) {
-        mView = MvpThreadConverter.delegateView(view);
+        mView = view;
         attachView();
     }
 
