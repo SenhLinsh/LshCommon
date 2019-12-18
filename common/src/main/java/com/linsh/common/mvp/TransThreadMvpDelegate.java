@@ -60,6 +60,7 @@ public class TransThreadMvpDelegate<P extends Contract.Presenter, V extends Cont
     public void detachView() {
         delegatedPresenter.detachView();
         isViewAttached = false;
+        originPresenter = null;
         originView = null;
     }
 
@@ -86,7 +87,7 @@ public class TransThreadMvpDelegate<P extends Contract.Presenter, V extends Cont
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 if (!isViewAttached) {
-                    LshLog.i(TAG, "try to invoke view method, but the view is detached, ignore.");
+                    LshLog.i(TAG, "try to invoke view method, but the view is not attached, ignore it.");
                     return null;
                 }
                 LshLog.d(TAG, "delegatedView: delegatedView=" + originView.getClass().getSimpleName()
@@ -137,18 +138,19 @@ public class TransThreadMvpDelegate<P extends Contract.Presenter, V extends Cont
         return (T) Proxy.newProxyInstance(viewClass.getClassLoader(), list.toArray(new Class[list.size()]), new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                Contract.Presenter presenter = originPresenter;
                 if (!isViewAttached) {
-                    LshLog.i(TAG, "try to invoke presenter method after view is detached, ignore.");
+                    LshLog.i(TAG, "try to invoke presenter method, but the view is not attached, ignore it.");
                     return null;
                 }
-                LshLog.d(TAG, "delegatedPresenter: presenter=" + originPresenter.getClass().getSimpleName()
+                LshLog.d(TAG, "delegatedPresenter: presenter=" + presenter.getClass().getSimpleName()
                         + ", method=" + method.getName());
                 if (method.getReturnType() == void.class && ThreadUtils.isMainThread()) {
                     Holder.MVP_PRESENTER_THREAD.post(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                method.invoke(originPresenter, args);
+                                method.invoke(presenter, args);
                             } catch (Exception e) {
                                 throw new RuntimeException("delegate presenter method " + method.toString() + " throw an exception: ", e);
                             }
@@ -162,7 +164,7 @@ public class TransThreadMvpDelegate<P extends Contract.Presenter, V extends Cont
                 if (ThreadUtils.isMainThread()) {
                     LshLog.i(TAG, "delegate view in a deprecated thread: " + Thread.currentThread().getName());
                 }
-                return method.invoke(originPresenter, args);
+                return method.invoke(presenter, args);
             }
         });
     }
