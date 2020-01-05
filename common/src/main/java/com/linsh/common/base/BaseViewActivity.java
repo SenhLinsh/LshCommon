@@ -3,13 +3,14 @@ package com.linsh.common.base;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
+import com.linsh.base.activity.Contract;
 import com.linsh.base.activity.mvp.BaseMvpActivity;
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.DialogHelper;
 import com.linsh.dialog.loading.LoadingDialogHelper;
 import com.linsh.utilseverywhere.ToastUtils;
-
-import androidx.annotation.Nullable;
 
 /**
  * <pre>
@@ -19,7 +20,7 @@ import androidx.annotation.Nullable;
  *    desc   :
  * </pre>
  */
-public abstract class BaseViewActivity<P extends BaseContract.Presenter> extends BaseMvpActivity<P> implements BaseContract.View<P> {
+public abstract class BaseViewActivity<P extends Contract.Presenter> extends BaseMvpActivity<P> implements BaseContract.View<P> {
 
     private DialogHelper loadingHelper;
 

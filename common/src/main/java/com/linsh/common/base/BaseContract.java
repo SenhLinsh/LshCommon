@@ -12,10 +12,7 @@ import com.linsh.base.activity.Contract;
  */
 public interface BaseContract {
 
-    interface Presenter<V extends View> extends Contract.Presenter<V> {
-    }
-
-    interface View<P extends Presenter> extends Contract.View<P> {
+    interface View<P extends Contract.Presenter> extends Contract.View<P> {
         void showToast(String text);
 
         void showLoading();
