@@ -1,14 +1,15 @@
 package com.linsh.common.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 
+import com.linsh.base.activity.mvp.BaseMvpActivity;
+import com.linsh.dialog.DialogComponents;
+import com.linsh.dialog.DialogHelper;
+import com.linsh.dialog.loading.LoadingDialogHelper;
+import com.linsh.utilseverywhere.ToastUtils;
+
 import androidx.annotation.Nullable;
-
-import com.linsh.base.LshActivity;
-import com.linsh.common.mvp.Contract;
-import com.linsh.common.mvp.TransThreadMvpDelegate;
-
-import java.io.Serializable;
 
 /**
  * <pre>
@@ -18,35 +19,40 @@ import java.io.Serializable;
  *    desc   :
  * </pre>
  */
-public abstract class BaseViewActivity<P extends Contract.Presenter> extends BaseActivity implements Contract.View<P> {
+public abstract class BaseViewActivity<P extends BaseContract.Presenter> extends BaseMvpActivity<P> implements BaseContract.View<P> {
 
-    private TransThreadMvpDelegate<P, Contract.View> mvpDelegate;
+    private DialogHelper loadingHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Serializable extra = LshActivity.intent(getIntent()).getSerializableExtra();
-        P presenter = (extra instanceof Contract.Presenter) ? (P) extra : initPresenter();
-        mvpDelegate = new TransThreadMvpDelegate<>(presenter, this);
-        mvpDelegate.attachView();
     }
 
-    protected abstract P initPresenter();
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mvpDelegate.detachView();
+    protected Activity getActivity() {
+        return this;
     }
 
     @Override
-    public P getPresenter() {
-        return mvpDelegate.getPresenter();
+    public void showToast(String text) {
+        ToastUtils.show(text);
     }
 
-    public static <P extends Contract.Presenter> void intent(
-            Class<? extends BaseViewActivity<P>> classOfActivity, Class<? extends P> classOfPresenter) {
-        LshActivity.intent(classOfActivity)
-                .putExtra(classOfPresenter);
+    @Override
+    public void showLoading() {
+        if (loadingHelper == null) {
+            loadingHelper = DialogComponents.create(this, LoadingDialogHelper.class);
+        }
+        loadingHelper.show();
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (loadingHelper != null)
+            loadingHelper.dismiss();
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 }
