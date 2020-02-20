@@ -1,6 +1,7 @@
 package com.linsh.common.api;
 
 import io.reactivex.Flowable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
 
@@ -11,5 +12,11 @@ import retrofit2.http.Url;
 public interface CommonApi {
 
     @GET()
-    Flowable<String> get(@Url String url);
+    String get(@Url String url);
+
+    @GET()
+    Flowable<String> getFlowable(@Url String url);
+
+    @GET
+    ResponseBody download(@Url String url);
 }

@@ -1,5 +1,6 @@
 package com.linsh.common.base;
 
+import com.linsh.base.activity.Contract;
 import com.linsh.base.activity.mvp.PresenterImpl;
 
 /**
@@ -10,5 +11,13 @@ import com.linsh.base.activity.mvp.PresenterImpl;
  *    desc   :
  * </pre>
  */
-public abstract class BasePresenterImpl<V extends BaseContract.View> extends PresenterImpl<V> {
+public abstract class BasePresenterImpl<V extends Contract.View> extends PresenterImpl<V> {
+
+    private EnhancedView enhancedView;
+
+    public EnhancedView getEnhancedView() {
+        if (enhancedView == null)
+            enhancedView = new EnhancedViewImpl(getView());
+        return enhancedView;
+    }
 }
