@@ -52,21 +52,84 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
         return mRealm;
     }
 
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     */
     protected <T extends RealmModel> void addRealmChangeListener(RealmResults<T> results, RealmChangeListener<RealmResults<T>> listener) {
+        addRealmChangeListener(results, listener, false);
+    }
+
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     *
+     * @param notifyWhenAdd 添加时是否进行通知. 如果 true, 在添加 RealmChangeListener 时, 会自动进行一次调用
+     */
+    protected <T extends RealmModel> void addRealmChangeListener(RealmResults<T> results, RealmChangeListener<RealmResults<T>> listener, boolean notifyWhenAdd) {
         results.addChangeListener(listener);
-        if (objectToRemoveListeners == null) objectToRemoveListeners = new LinkedList<>();
+        if (notifyWhenAdd && results.isLoaded()) {
+            listener.onChange(results);
+        }
+        if (objectToRemoveListeners == null) {
+            objectToRemoveListeners = new LinkedList<>();
+        }
         objectToRemoveListeners.add(results);
     }
 
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     */
     protected <T extends RealmModel> void addRealmChangeListener(RealmList<T> realmList, RealmChangeListener<RealmList<T>> listener) {
+        addRealmChangeListener(realmList, listener, false);
+    }
+
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     *
+     * @param notifyWhenAdd 添加时是否进行通知. 如果 true, 在添加 RealmChangeListener 时, 会自动进行一次调用
+     */
+    protected <T extends RealmModel> void addRealmChangeListener(RealmList<T> realmList, RealmChangeListener<RealmList<T>> listener, boolean notifyWhenAdd) {
         realmList.addChangeListener(listener);
-        if (objectToRemoveListeners == null) objectToRemoveListeners = new LinkedList<>();
+        if (notifyWhenAdd && realmList.isLoaded()) {
+            listener.onChange(realmList);
+        }
+        if (objectToRemoveListeners == null) {
+            objectToRemoveListeners = new LinkedList<>();
+        }
         objectToRemoveListeners.add(realmList);
     }
 
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     */
     protected <T extends RealmObject> void addRealmChangeListener(T realmObject, RealmChangeListener<T> listener) {
+        addRealmChangeListener(realmObject, listener, false);
+    }
+
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     *
+     * @param notifyWhenAdd 添加时是否进行通知. 如果 true, 在添加 RealmChangeListener 时, 会自动进行一次调用
+     */
+    protected <T extends RealmObject> void addRealmChangeListener(T realmObject, RealmChangeListener<T> listener, boolean notifyWhenAdd) {
         realmObject.addChangeListener(listener);
-        if (objectToRemoveListeners == null) objectToRemoveListeners = new LinkedList<>();
+        if (notifyWhenAdd && realmObject.isLoaded()) {
+            listener.onChange(realmObject);
+        }
+        if (objectToRemoveListeners == null) {
+            objectToRemoveListeners = new LinkedList<>();
+        }
         objectToRemoveListeners.add(realmObject);
     }
 
