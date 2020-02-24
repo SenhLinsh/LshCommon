@@ -1,7 +1,7 @@
 package com.linsh.common.base;
 
-import com.linsh.base.activity.Contract;
-import com.linsh.base.activity.mvp.PresenterImpl;
+import com.linsh.base.mvp.Contract;
+import com.linsh.base.mvp.PresenterImpl;
 
 /**
  * <pre>

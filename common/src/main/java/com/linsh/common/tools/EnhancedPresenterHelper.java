@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.linsh.base.activity.Contract;
+import com.linsh.base.mvp.Contract;
 import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.dialog.DialogComponents;
-import com.linsh.dialog.DialogHelper;
-import com.linsh.dialog.text.TextDialogHelper;
+import com.linsh.dialog.IDialog;
+import com.linsh.dialog.text.ITextDialog;
 import com.linsh.lshutils.utils.ToastUtilsEx;
 import com.linsh.utilseverywhere.ClassUtils;
 import com.linsh.utilseverywhere.HandlerUtils;
@@ -24,7 +24,7 @@ import com.linsh.utilseverywhere.HandlerUtils;
 public class EnhancedPresenterHelper {
 
     private DelegateActivity activity;
-    private DialogHelper dialogHelper;
+    private IDialog dialogHelper;
 
     public EnhancedPresenterHelper(Contract.View view) {
         if (view instanceof DelegateActivity) {
@@ -64,7 +64,7 @@ public class EnhancedPresenterHelper {
             if (dialogHelper != null) {
                 dialogHelper.dismiss();
             }
-            dialogHelper = DialogComponents.create(activity, TextDialogHelper.class)
+            dialogHelper = DialogComponents.create(activity, ITextDialog.class)
                     .setText(content)
                     .show();
         });

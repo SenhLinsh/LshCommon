@@ -1,6 +1,6 @@
 package com.linsh.common.db;
 
-import com.linsh.base.activity.Contract;
+import com.linsh.base.mvp.Contract;
 import com.linsh.common.base.BasePresenterImpl;
 
 import java.util.LinkedList;
