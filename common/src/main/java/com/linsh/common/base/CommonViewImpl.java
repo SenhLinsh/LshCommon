@@ -12,13 +12,13 @@ import com.linsh.dialog.text.ITextDialog;
 import com.linsh.lshutils.utils.ToastUtilsEx;
 import com.linsh.utilseverywhere.HandlerUtils;
 
-class EnhancedViewImpl implements EnhancedView {
+class CommonViewImpl implements CommonContract.View {
 
     private Contract.View view;
     private DelegateActivity activity;
     private IDialog dialogHelper;
 
-    public EnhancedViewImpl(Contract.View view) {
+    public CommonViewImpl(Contract.View view) {
         this.view = view;
         Context context = view.getContext();
         if (context instanceof DelegateActivity) {
@@ -139,10 +139,5 @@ class EnhancedViewImpl implements EnhancedView {
         HandlerUtils.postRunnable(() -> {
             activity.finishActivity(resultCode);
         });
-    }
-
-    @Override
-    public Contract.Presenter getPresenter() {
-        return view.getPresenter();
     }
 }

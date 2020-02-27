@@ -3,7 +3,7 @@ package com.linsh.common.db;
 import com.linsh.base.mvp.Contract;
 import com.linsh.common.base.BasePresenterImpl;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -24,7 +24,7 @@ import io.realm.RealmResults;
 public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends BasePresenterImpl<V> {
 
     private Realm mRealm;
-    private List<Object> objectToRemoveListeners;
+    private List<Object> objectToRemoveListeners = new ArrayList<>();
 
     @Override
     public void attachView(V view) {
@@ -43,6 +43,8 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
                     removeRealmChangeListener((RealmResults) object);
                 } else if (object instanceof RealmList) {
                     removeRealmChangeListener((RealmList) object);
+                } else if (object instanceof RealmChangeListener) {
+                    getRealm().removeChangeListener((RealmChangeListener<Realm>) object);
                 }
             }
         }
@@ -73,9 +75,6 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
         if (notifyWhenAdd && results.isLoaded()) {
             listener.onChange(results);
         }
-        if (objectToRemoveListeners == null) {
-            objectToRemoveListeners = new LinkedList<>();
-        }
         objectToRemoveListeners.add(results);
     }
 
@@ -99,9 +98,6 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
         realmList.addChangeListener(listener);
         if (notifyWhenAdd && realmList.isLoaded()) {
             listener.onChange(realmList);
-        }
-        if (objectToRemoveListeners == null) {
-            objectToRemoveListeners = new LinkedList<>();
         }
         objectToRemoveListeners.add(realmList);
     }
@@ -127,10 +123,17 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
         if (notifyWhenAdd && realmObject.isLoaded()) {
             listener.onChange(realmObject);
         }
-        if (objectToRemoveListeners == null) {
-            objectToRemoveListeners = new LinkedList<>();
-        }
         objectToRemoveListeners.add(realmObject);
+    }
+
+    /**
+     * 添加并管理 RealmChangeListener
+     * <p>
+     * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
+     */
+    protected void addRealmChangeListener(RealmChangeListener<Realm> listener) {
+        getRealm().addChangeListener(listener);
+        objectToRemoveListeners.add(listener);
     }
 
     protected void removeRealmChangeListeners(RealmObject... realmObjects) {

@@ -13,11 +13,15 @@ import com.linsh.base.mvp.PresenterImpl;
  */
 public abstract class BasePresenterImpl<V extends Contract.View> extends PresenterImpl<V> {
 
-    private EnhancedView enhancedView;
+    private CommonContract.View enhancedView;
 
-    public EnhancedView getEnhancedView() {
+    public CommonContract.View getCommonView() {
+        V view = getView();
+        if (view instanceof CommonContract.View) {
+            return (CommonContract.View) getView();
+        }
         if (enhancedView == null)
-            enhancedView = new EnhancedViewImpl(getView());
+            enhancedView = new CommonViewImpl(getView());
         return enhancedView;
     }
 }
