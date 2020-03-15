@@ -1,6 +1,7 @@
 package com.linsh.common.base;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 import com.linsh.base.mvp.BaseMvpActivity;
 import com.linsh.base.mvp.Contract;
@@ -9,6 +10,8 @@ import com.linsh.dialog.IDialog;
 import com.linsh.dialog.text.ITextDialog;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.ToastUtils;
+
+import androidx.annotation.Nullable;
 
 /**
  * <pre>
@@ -22,6 +25,12 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
 
     private static final String TAG = "BaseCommonActivity";
     private IDialog dialogHelper;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addMvpCallAdapter(new MvpAnnotationEnhancer());
+    }
 
     @Override
     public Activity getActivity() {
