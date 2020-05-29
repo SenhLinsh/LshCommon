@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.linsh.base.activity.ActivitySubscribe;
-import com.linsh.lshutils.utils.IdUtilsEx;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,12 +59,11 @@ public class OptionMenuSubscriber implements ActivitySubscribe.OnCreateOptionsMe
         return addItem(title, 0, 0, 0, listener);
     }
 
-    public OptionMenuSubscriber addItem(String title, int itemId, int groupId, int order) {
-        return addItem(title, itemId, groupId, order, null);
+    public OptionMenuSubscriber addItem(String title, int itemId, int groupId, int order, onItemSelectedListener listener) {
+        return addItem(new ItemInfo(title, itemId, groupId, order, listener));
     }
 
-    public OptionMenuSubscriber addItem(String title, int itemId, int groupId, int order, onItemSelectedListener listener) {
-        ItemInfo itemInfo = new ItemInfo(title, itemId, groupId, order, listener);
+    public OptionMenuSubscriber addItem(ItemInfo itemInfo) {
         if (menu == null) {
             additions.add(itemInfo);
         } else {
@@ -76,6 +74,7 @@ public class OptionMenuSubscriber implements ActivitySubscribe.OnCreateOptionsMe
 
     private void addItem(Menu menu, ItemInfo itemInfo) {
         MenuItem item = menu.add(itemInfo.groupId, itemInfo.itemId, itemInfo.order, itemInfo.title);
+        item.setShowAsAction(itemInfo.showAsAction);
         if (itemInfo.listener != null) {
             subscribeListeners.put(item.hashCode(), itemInfo);
         }
@@ -90,23 +89,59 @@ public class OptionMenuSubscriber implements ActivitySubscribe.OnCreateOptionsMe
         void onItemSelected(MenuItem item);
     }
 
-    private static class ItemInfo {
+    public static class ItemInfo {
         private String title;
         private int itemId;
         private int groupId;
         private int order;
+        private int showAsAction;
         private onItemSelectedListener listener;
+
+        public ItemInfo(String title) {
+            this.title = title;
+        }
+
+        public ItemInfo(String title, onItemSelectedListener listener) {
+            this.title = title;
+            this.listener = listener;
+        }
 
         public ItemInfo(String title, int itemId, int groupId, int order, onItemSelectedListener listener) {
             this.title = title;
-            if (itemId == 0) {
-                this.itemId = IdUtilsEx.generateId();
-            } else {
-                this.itemId = itemId;
-            }
+            this.itemId = itemId;
             this.groupId = groupId;
             this.order = order;
             this.listener = listener;
+        }
+
+        public ItemInfo setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public ItemInfo setItemId(int itemId) {
+            this.itemId = itemId;
+            return this;
+        }
+
+        public ItemInfo setGroupId(int groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
+        public ItemInfo setOrder(int order) {
+            this.order = order;
+            return this;
+        }
+
+        public ItemInfo setShowAsAction(int showAsAction) {
+            this.showAsAction = showAsAction;
+            return this;
+        }
+
+        public ItemInfo setListener(onItemSelectedListener listener) {
+            this.listener = listener;
+            return this;
         }
     }
 }
