@@ -41,83 +41,85 @@ public class ActivityResultSubscriber implements ActivitySubscribe.OnActivityRes
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null)
+            return;
         Method method = cachedMethods.get(requestCode);
-        if (method != null) {
-            Annotation[][] paramAnnotations = method.getParameterAnnotations();
-            Class[] types = method.getParameterTypes();
-            Object[] args = new Object[types.length];
-            for (int i = 0; i < types.length; i++) {
-                Class type = types[i];
-                Annotation[] annotations = paramAnnotations[i];
-                if (annotations == null || annotations.length == 0)
-                    throw new IllegalArgumentException("@ActivityResult method must declare annotation for parameter");
-                if (annotations.length > 1)
-                    throw new IllegalArgumentException("@ActivityResult method must declare at most one annotation for each parameter");
-                Annotation annotation = annotations[0];
-                if (annotation instanceof ActivityResult.ResultCode) {
-                    if (type != int.class)
-                        throw new IllegalArgumentException("@ResultCode must declare the type as int");
-                    args[i] = resultCode;
-                    continue;
-                }
-                if (annotation instanceof ActivityResult.Intent) {
-                    if (type != Intent.class)
-                        throw new IllegalArgumentException("@Intent must declare the type as Intent");
-                    args[i] = data;
-                    continue;
-                }
-                if (annotation instanceof ActivityResult.IntentData) {
-                    if (type != Uri.class)
-                        throw new IllegalArgumentException("@IntentData must declare the type as Uri");
-                    args[i] = data.getData();
-                    continue;
-                }
-                if (annotation instanceof ActivityResult.IntentExtra) {
-                    String key = ((ActivityResult.IntentExtra) annotation).value();
-                    if (type == Object.class) {
-                        Bundle extras = data.getExtras();
-                        if (extras != null) {
-                            args[i] = extras.get(key);
-                        }
-                    } else if (type == boolean.class) {
-                        args[i] = data.getBooleanExtra(key, false);
-                    } else if (type == byte.class) {
-                        args[i] = data.getByteExtra(key, (byte) 0);
-                    } else if (type == short.class) {
-                        args[i] = data.getShortExtra(key, (short) 0);
-                    } else if (type == char.class) {
-                        args[i] = data.getCharExtra(key, (char) 0);
-                    } else if (type == int.class) {
-                        args[i] = data.getIntExtra(key, 0);
-                    } else if (type == long.class) {
-                        args[i] = data.getLongExtra(key, 0);
-                    } else if (type == float.class) {
-                        args[i] = data.getFloatExtra(key, 0);
-                    } else if (type == double.class) {
-                        args[i] = data.getDoubleExtra(key, 0);
-                    } else if (type == String.class) {
-                        args[i] = data.getStringExtra(key);
-                    } else if (type == CharSequence.class) {
-                        args[i] = data.getCharSequenceExtra(key);
-                    } else if (type == Parcelable.class) {
-                        args[i] = data.getParcelableExtra(key);
-                    } else if (type == int[].class) {
-                        args[i] = data.getIntArrayExtra(key);
-                    } else if (type == String[].class) {
-                        args[i] = data.getStringArrayExtra(key);
-                    } else {
-                        throw new IllegalArgumentException("can not support @IntentExtra type: " + type);
+        if (method == null)
+            return;
+        Annotation[][] paramAnnotations = method.getParameterAnnotations();
+        Class[] types = method.getParameterTypes();
+        Object[] args = new Object[types.length];
+        for (int i = 0; i < types.length; i++) {
+            Class type = types[i];
+            Annotation[] annotations = paramAnnotations[i];
+            if (annotations == null || annotations.length == 0)
+                throw new IllegalArgumentException("@ActivityResult method must declare annotation for parameter");
+            if (annotations.length > 1)
+                throw new IllegalArgumentException("@ActivityResult method must declare at most one annotation for each parameter");
+            Annotation annotation = annotations[0];
+            if (annotation instanceof ActivityResult.ResultCode) {
+                if (type != int.class)
+                    throw new IllegalArgumentException("@ResultCode must declare the type as int");
+                args[i] = resultCode;
+                continue;
+            }
+            if (annotation instanceof ActivityResult.Intent) {
+                if (type != Intent.class)
+                    throw new IllegalArgumentException("@Intent must declare the type as Intent");
+                args[i] = data;
+                continue;
+            }
+            if (annotation instanceof ActivityResult.IntentData) {
+                if (type != Uri.class)
+                    throw new IllegalArgumentException("@IntentData must declare the type as Uri");
+                args[i] = data.getData();
+                continue;
+            }
+            if (annotation instanceof ActivityResult.IntentExtra) {
+                String key = ((ActivityResult.IntentExtra) annotation).value();
+                if (type == Object.class) {
+                    Bundle extras = data.getExtras();
+                    if (extras != null) {
+                        args[i] = extras.get(key);
                     }
-                    continue;
+                } else if (type == boolean.class) {
+                    args[i] = data.getBooleanExtra(key, false);
+                } else if (type == byte.class) {
+                    args[i] = data.getByteExtra(key, (byte) 0);
+                } else if (type == short.class) {
+                    args[i] = data.getShortExtra(key, (short) 0);
+                } else if (type == char.class) {
+                    args[i] = data.getCharExtra(key, (char) 0);
+                } else if (type == int.class) {
+                    args[i] = data.getIntExtra(key, 0);
+                } else if (type == long.class) {
+                    args[i] = data.getLongExtra(key, 0);
+                } else if (type == float.class) {
+                    args[i] = data.getFloatExtra(key, 0);
+                } else if (type == double.class) {
+                    args[i] = data.getDoubleExtra(key, 0);
+                } else if (type == String.class) {
+                    args[i] = data.getStringExtra(key);
+                } else if (type == CharSequence.class) {
+                    args[i] = data.getCharSequenceExtra(key);
+                } else if (type == Parcelable.class) {
+                    args[i] = data.getParcelableExtra(key);
+                } else if (type == int[].class) {
+                    args[i] = data.getIntArrayExtra(key);
+                } else if (type == String[].class) {
+                    args[i] = data.getStringArrayExtra(key);
+                } else {
+                    throw new IllegalArgumentException("can not support @IntentExtra type: " + type);
                 }
-                throw new IllegalArgumentException("can not support this annotation: " + annotation);
+                continue;
             }
-            try {
-                method.setAccessible(true);
-                method.invoke(activity, args);
-            } catch (Exception e) {
-                throw new RuntimeException("invoke @ActivityResult method crashed");
-            }
+            throw new IllegalArgumentException("can not support this annotation: " + annotation);
+        }
+        try {
+            method.setAccessible(true);
+            method.invoke(activity, args);
+        } catch (Exception e) {
+            throw new RuntimeException("invoke @ActivityResult method crashed");
         }
     }
 }
