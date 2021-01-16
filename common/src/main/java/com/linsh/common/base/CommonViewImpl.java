@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.linsh.base.mvp.BaseMvpViewImpl;
 import com.linsh.base.mvp.Contract;
 import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.dialog.DialogComponents;
@@ -12,7 +13,7 @@ import com.linsh.dialog.text.ITextDialog;
 import com.linsh.lshutils.utils.ToastUtilsEx;
 import com.linsh.utilseverywhere.HandlerUtils;
 
-class CommonViewImpl implements CommonContract.View {
+class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements CommonContract.View {
 
     private Contract.View view;
     private DelegateActivity activity;

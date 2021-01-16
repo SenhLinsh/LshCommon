@@ -27,7 +27,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
     private List<Object> objectToRemoveListeners = new ArrayList<>();
 
     @Override
-    public void attachView(V view) {
+    public void attachView(Contract.View view) {
         mRealm = Realm.getDefaultInstance();
         super.attachView(view);
     }
