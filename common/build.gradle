@@ -54,8 +54,15 @@ dependencies {
     implementation 'io.realm:realm-android-library:6.0.1'
 
     //////////  个人
-    implementation project(':ue')
-    implementation project(':uee')
-    implementation project(':base')
-    implementation project(':components')
+    try {
+        implementation project(':ue')
+        implementation project(':uee')
+        implementation project(':base')
+        implementation project(':components')
+    } catch (ignored) {
+        implementation 'com.github.SenhLinsh:Utils-Everywhere:3.+'
+        implementation 'com.github.SenhLinsh:Utils-Everywhere-Ex:3.+'
+        implementation 'com.github.SenhLinsh:LshBase:3.+'
+        implementation 'com.github.SenhLinsh:LshComponents:3.+'
+    }
 }
