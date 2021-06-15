@@ -119,7 +119,7 @@ public class ActivityResultSubscriber implements ActivitySubscribe.OnActivityRes
             method.setAccessible(true);
             method.invoke(activity, args);
         } catch (Exception e) {
-            throw new RuntimeException("invoke @ActivityResult method crashed");
+            throw new RuntimeException("invoke @ActivityResult method crashed", e);
         }
     }
 }
