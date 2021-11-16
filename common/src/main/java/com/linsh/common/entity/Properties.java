@@ -3,10 +3,13 @@ package com.linsh.common.entity;
 import com.google.gson.internal.LinkedTreeMap;
 import com.linsh.lshutils.utils.ArrayUtilsEx;
 import com.linsh.lshutils.utils.NumberUtilsEx;
+import com.linsh.utilseverywhere.ListUtils;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+
+import io.realm.RealmList;
 
 /**
  * <pre>
@@ -49,6 +52,13 @@ public class Properties implements IProperties {
     }
 
     @Override
+    public void put(String key, RealmList<?> value) {
+        if (value != null) {
+            map.put(key, ListUtils.toString(value));
+        }
+    }
+
+    @Override
     public String get(String key) {
         return map.get(key);
     }
@@ -64,8 +74,19 @@ public class Properties implements IProperties {
     }
 
     @Override
-    public String[] getStringArray(String key) {
+    public String[] getArray(String key) {
         return ArrayUtilsEx.fromString(map.get(key));
+    }
+
+    @Override
+    public RealmList<String> getRealmList(String key) {
+        String[] array = getArray(key);
+        if (array != null) {
+            RealmList<String> list = new RealmList<>();
+            list.addAll(Arrays.asList(array));
+            return list;
+        }
+        return null;
     }
 
     @Override

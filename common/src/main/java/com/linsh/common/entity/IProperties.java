@@ -3,6 +3,8 @@ package com.linsh.common.entity;
 import java.util.Map;
 import java.util.Set;
 
+import io.realm.RealmList;
+
 /**
  * <pre>
  *    author : Senh Linsh
@@ -21,13 +23,17 @@ public interface IProperties {
 
     void put(String key, String[] value);
 
+    void put(String key, RealmList<?> value);
+
     String get(String key);
 
     int getInt(String key);
 
     long getLong(String key);
 
-    String[] getStringArray(String key);
+    String[] getArray(String key);
+
+    RealmList<String> getRealmList(String key);
 
     Set<Map.Entry<String, String>> entrySet();
 }
