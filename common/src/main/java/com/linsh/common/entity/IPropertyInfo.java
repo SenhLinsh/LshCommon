@@ -10,7 +10,7 @@ package com.linsh.common.entity;
  */
 public interface IPropertyInfo {
 
-    void setProperties(IProperties properties);
+    void onRestore(IProperties properties);
 
-    void getProperties(IProperties properties);
+    void onSave(IProperties properties);
 }

@@ -33,7 +33,7 @@ public class PropertyInfoParser {
     public static <T extends IPropertyInfo> T parse(Class<T> infoClass, List<String> lines) throws Exception {
         IProperties properties = parse(lines);
         T instance = (T) ClassUtils.newInstance(infoClass);
-        instance.setProperties(properties);
+        instance.onRestore(properties);
         return instance;
     }
 
@@ -43,7 +43,7 @@ public class PropertyInfoParser {
     public static <T extends IPropertyInfo> T parse(Class<T> infoClass, String content) throws Exception {
         IProperties properties = parse(Arrays.asList(content.split("\n")));
         T instance = (T) ClassUtils.newInstance(infoClass);
-        instance.setProperties(properties);
+        instance.onRestore(properties);
         return instance;
     }
 
@@ -84,7 +84,7 @@ public class PropertyInfoParser {
     @NonNull
     public static List<String> format(@NonNull IPropertyInfo propertyInfo) {
         Properties properties = new Properties();
-        propertyInfo.getProperties(properties);
+        propertyInfo.onSave(properties);
         return format(properties);
     }
 
