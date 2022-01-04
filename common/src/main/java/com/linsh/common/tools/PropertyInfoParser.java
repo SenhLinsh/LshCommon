@@ -51,7 +51,7 @@ public class PropertyInfoParser {
      * 解析 Info 文件行
      */
     @NonNull
-    private static IProperties parse(List<String> lines) {
+    public static IProperties parse(List<String> lines) {
         IProperties result = new Properties();
         for (int i = 0; i < lines.size(); i++) {
             String line = StringUtils.trimBlank(lines.get(i));
