@@ -35,5 +35,7 @@ public interface IProperties {
 
     RealmList<String> getRealmList(String key);
 
+    RealmList<String> getRealmListAsTag(String key);
+
     Set<Map.Entry<String, String>> entrySet();
 }

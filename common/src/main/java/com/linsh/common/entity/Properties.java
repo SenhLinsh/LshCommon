@@ -4,6 +4,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.linsh.lshutils.utils.ArrayUtilsEx;
 import com.linsh.lshutils.utils.NumberUtilsEx;
 import com.linsh.utilseverywhere.ListUtils;
+import com.linsh.utilseverywhere.StringUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -85,6 +86,22 @@ public class Properties implements IProperties {
             RealmList<String> list = new RealmList<>();
             list.addAll(Arrays.asList(array));
             return list;
+        }
+        return null;
+    }
+
+    @Override
+    public RealmList<String> getRealmListAsTag(String key) {
+        String value = map.get(key);
+        if (value != null) {
+            RealmList<String> tags = new RealmList<>();
+            String[] args = value.split(" *# *");
+            for (String arg : args) {
+                if (StringUtils.notEmpty(arg)) {
+                    tags.add(arg);
+                }
+            }
+            return tags;
         }
         return null;
     }
