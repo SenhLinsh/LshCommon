@@ -3,16 +3,17 @@ package com.linsh.common.base;
 import android.app.Activity;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-
 import com.linsh.base.mvp.BaseMvpActivity;
 import com.linsh.base.mvp.Contract;
 import com.linsh.common.activity.ActivityResultSubscriber;
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
+import com.linsh.dialog.loading.ILoadingDialog;
 import com.linsh.dialog.text.ITextDialog;
 import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.ToastUtils;
+
+import androidx.annotation.Nullable;
 
 /**
  * <pre>
@@ -89,24 +90,14 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
 
     @Override
     public void showLoadingDialog() {
-        showLoadingDialog("加载中...");
-    }
-
-    @Override
-    public void showLoadingDialog(String content) {
-        if (dialogHelper != null) {
-            dialogHelper.dismiss();
-        }
-        dialogHelper = DialogComponents.create(this, ITextDialog.class)
-                .setText(content)
+        showLoadingDialog();
+        DialogComponents.create(this, ILoadingDialog.class)
                 .show();
     }
 
     @Override
     public void dismissLoadingDialog() {
-        if (dialogHelper != null) {
-            dialogHelper.dismiss();
-        }
+        DialogComponents.dismissAll(this);
     }
 
     @Override

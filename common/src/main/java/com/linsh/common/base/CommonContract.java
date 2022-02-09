@@ -42,8 +42,6 @@ public interface CommonContract {
 
         void showLoadingDialog();
 
-        void showLoadingDialog(String content);
-
         void dismissLoadingDialog();
 
         void showToast(String content);
