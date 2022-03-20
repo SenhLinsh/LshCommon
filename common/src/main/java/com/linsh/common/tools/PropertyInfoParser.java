@@ -1,7 +1,5 @@
 package com.linsh.common.tools;
 
-import androidx.annotation.NonNull;
-
 import com.linsh.base.LshLog;
 import com.linsh.common.entity.IProperties;
 import com.linsh.common.entity.IPropertyInfo;
@@ -14,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * <pre>

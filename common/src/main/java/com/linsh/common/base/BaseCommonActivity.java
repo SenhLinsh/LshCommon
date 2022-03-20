@@ -90,7 +90,6 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
 
     @Override
     public void showLoadingDialog() {
-        showLoadingDialog();
         DialogComponents.create(this, ILoadingDialog.class)
                 .show();
     }
