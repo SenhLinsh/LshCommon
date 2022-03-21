@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.base.mvp.BaseMvpViewImpl;
 import com.linsh.base.mvp.Contract;
-import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
+import com.linsh.dialog.loading.IKeepScreenOnLoadingDialog;
 import com.linsh.dialog.loading.ILoadingDialog;
 import com.linsh.dialog.text.ITextDialog;
 import com.linsh.lshutils.utils.ToastUtilsEx;
@@ -100,6 +101,26 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
         HandlerUtils.postRunnable(() -> {
             DialogComponents.create(activity, ILoadingDialog.class)
                     .show();
+        });
+    }
+
+    @Override
+    public void showLoadingDialog(boolean keepScreenOn) {
+        HandlerUtils.postRunnable(() -> {
+            DialogComponents.create(activity, IKeepScreenOnLoadingDialog.class)
+                    .keepScreenOn(true)
+                    .show();
+        });
+    }
+
+    @Override
+    public void updateLoadingDialog(String progress) {
+        HandlerUtils.postRunnable(() -> {
+            IKeepScreenOnLoadingDialog dialog = DialogComponents.find(activity, IKeepScreenOnLoadingDialog.class);
+            if (dialog != null) {
+                dialog.setProgress(progress)
+                        .show();
+            }
         });
     }
 

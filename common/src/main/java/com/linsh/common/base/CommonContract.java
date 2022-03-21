@@ -42,6 +42,10 @@ public interface CommonContract {
 
         void showLoadingDialog();
 
+        void showLoadingDialog(boolean keepScreenOn);
+
+        void updateLoadingDialog(String progress);
+
         void dismissLoadingDialog();
 
         void showToast(String content);
