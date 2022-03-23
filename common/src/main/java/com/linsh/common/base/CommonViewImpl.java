@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.linsh.base.LshThread;
 import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.base.mvp.BaseMvpViewImpl;
 import com.linsh.base.mvp.Contract;
@@ -11,9 +12,12 @@ import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
 import com.linsh.dialog.loading.IKeepScreenOnLoadingDialog;
 import com.linsh.dialog.loading.ILoadingDialog;
+import com.linsh.dialog.text.IListDialog;
 import com.linsh.dialog.text.ITextDialog;
 import com.linsh.lshutils.utils.ToastUtilsEx;
 import com.linsh.utilseverywhere.HandlerUtils;
+
+import java.util.List;
 
 class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements CommonContract.View {
 
@@ -83,14 +87,44 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
             DialogComponents.create(activity, ITextDialog.class)
                     .setText(content)
                     .setTitle(title)
-                    .setPositiveButton(positiveBtn, onPositiveListener)
-                    .setNegativeButton(negativeBtn, onNegativeListener)
+                    .setPositiveButton(positiveBtn, onPositiveListener == null ? null : dialog -> {
+                        dialog.dismiss();
+                        LshThread.presenter(() -> onPositiveListener.onClick(dialog));
+                    })
+                    .setNegativeButton(negativeBtn, onNegativeListener == null ? null : dialog -> {
+                        dialog.dismiss();
+                        LshThread.presenter(() -> onNegativeListener.onClick(dialog));
+                    })
                     .show();
         });
     }
 
     @Override
     public void dismissTextDialog() {
+        HandlerUtils.postRunnable(() -> {
+            DialogComponents.dismissAll(getActivity());
+        });
+    }
+
+    @Override
+    public void showListDialog(String title, List<? extends CharSequence> items,
+                               IDialog.OnItemClickListener onItemClickListener, IDialog.OnItemClickListener onItemLongClickListener) {
+        DialogComponents.create(activity, IListDialog.class)
+                .setItems(items)
+                .setOnItemClickListener(onItemClickListener == null ? null : (IDialog.OnItemClickListener) (dialog, position) -> {
+                    dialog.dismiss();
+                    LshThread.presenter(() -> onItemClickListener.onItemClick(dialog, position));
+                })
+                .setOnItemLongClickListener(onItemLongClickListener == null ? null : (IDialog.OnItemClickListener) (dialog, position) -> {
+                    dialog.dismiss();
+                    LshThread.presenter(() -> onItemLongClickListener.onItemClick(dialog, position));
+                })
+                .setTitle(title)
+                .show();
+    }
+
+    @Override
+    public void dismissListDialog() {
         HandlerUtils.postRunnable(() -> {
             DialogComponents.dismissAll(getActivity());
         });

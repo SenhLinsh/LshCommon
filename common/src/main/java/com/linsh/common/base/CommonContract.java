@@ -7,6 +7,8 @@ import android.content.Intent;
 import com.linsh.base.mvp.Contract;
 import com.linsh.dialog.IDialog;
 
+import java.util.List;
+
 /**
  * <pre>
  *    author : Senh Linsh
@@ -39,6 +41,11 @@ public interface CommonContract {
                             String negativeBtn, IDialog.OnClickListener onNegativeListener);
 
         void dismissTextDialog();
+
+        void showListDialog(String title, List<? extends CharSequence> items,
+                            IDialog.OnItemClickListener onItemClickListener, IDialog.OnItemClickListener onItemLongClickListener);
+
+        void dismissListDialog();
 
         void showLoadingDialog();
 
