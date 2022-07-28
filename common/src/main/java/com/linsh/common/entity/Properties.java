@@ -28,6 +28,8 @@ public class Properties implements IProperties {
     public void put(String key, String value) {
         if (value != null) {
             map.put(key, value);
+        } else {
+            map.remove(key);
         }
     }
 
@@ -35,6 +37,8 @@ public class Properties implements IProperties {
     public void put(String key, int value) {
         if (value != 0) {
             map.put(key, String.valueOf(value));
+        } else {
+            map.remove(key);
         }
     }
 
@@ -42,6 +46,8 @@ public class Properties implements IProperties {
     public void put(String key, long value) {
         if (value != 0) {
             map.put(key, String.valueOf(value));
+        } else {
+            map.remove(key);
         }
     }
 
@@ -49,6 +55,8 @@ public class Properties implements IProperties {
     public void put(String key, String[] value) {
         if (value != null) {
             map.put(key, Arrays.toString(value));
+        } else {
+            map.remove(key);
         }
     }
 
@@ -56,6 +64,8 @@ public class Properties implements IProperties {
     public void put(String key, RealmList<?> value) {
         if (value != null) {
             map.put(key, ListUtils.toString(value));
+        } else {
+            map.remove(key);
         }
     }
 
@@ -109,5 +119,10 @@ public class Properties implements IProperties {
     @Override
     public Set<Map.Entry<String, String>> entrySet() {
         return map.entrySet();
+    }
+
+    @Override
+    public String remove(String key) {
+        return map.remove(key);
     }
 }

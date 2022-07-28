@@ -38,4 +38,6 @@ public interface IProperties {
     RealmList<String> getRealmListAsTag(String key);
 
     Set<Map.Entry<String, String>> entrySet();
+
+    String remove(String key);
 }
