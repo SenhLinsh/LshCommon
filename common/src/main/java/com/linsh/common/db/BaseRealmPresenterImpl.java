@@ -171,4 +171,16 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
             return null;
         return mRealm.copyFromRealm(realmResults);
     }
+
+    protected void checkCancelTransaction() {
+        checkCancelTransaction(getRealm());
+    }
+
+    protected void checkCancelTransaction(Realm... realms) {
+        for (Realm realm : realms) {
+            if (realm.isInTransaction()) {
+                realm.cancelTransaction();
+            }
+        }
+    }
 }
