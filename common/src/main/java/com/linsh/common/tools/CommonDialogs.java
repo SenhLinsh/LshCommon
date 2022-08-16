@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
+import com.linsh.dialog.text.IListDialog;
 import com.linsh.dialog.text.ITextDialog;
 
 /**
@@ -28,6 +29,22 @@ public class CommonDialogs {
                 .setText(message)
                 .setTitle(title)
                 .setPositiveButton()
+                .show();
+    }
+
+    /**
+     * 列表弹窗
+     *
+     * @param activity Activity
+     * @param title    标签
+     * @param items    列表
+     * @param listener 点击事件
+     */
+    public static void showList(Activity activity, String title, CharSequence[] items, IDialog.OnItemClickListener listener) {
+        DialogComponents.create(activity, IListDialog.class)
+                .setItems(items)
+                .setOnItemClickListener(listener)
+                .setTitle(title)
                 .show();
     }
 
