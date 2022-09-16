@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
+import com.linsh.dialog.text.IInputDialog;
 import com.linsh.dialog.text.IListDialog;
 import com.linsh.dialog.text.ITextDialog;
 
@@ -29,6 +30,21 @@ public class CommonDialogs {
                 .setText(message)
                 .setTitle(title)
                 .setPositiveButton()
+                .show();
+    }
+
+    /**
+     * 输入弹窗
+     *
+     * @param activity Activity
+     * @param title    标题
+     * @param listener 确认点击事件
+     */
+    public static void showInput(Activity activity, String title, IDialog.OnClickListener listener) {
+        DialogComponents.create(activity, IInputDialog.class)
+                .setTitle(title)
+                .setNegativeButton()
+                .setPositiveButton(listener)
                 .show();
     }
 
