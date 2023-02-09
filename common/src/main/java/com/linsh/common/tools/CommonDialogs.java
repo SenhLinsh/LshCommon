@@ -1,6 +1,6 @@
 package com.linsh.common.tools;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
@@ -21,12 +21,12 @@ public class CommonDialogs {
     /**
      * 提示弹窗
      *
-     * @param activity Activity
+     * @param context context
      * @param title    标题
      * @param message  内容
      */
-    public static void showText(Activity activity, String title, String message) {
-        DialogComponents.create(activity, ITextDialog.class)
+    public static void showText(Context context, String title, String message) {
+        DialogComponents.create(context, ITextDialog.class)
                 .setText(message)
                 .setTitle(title)
                 .setPositiveButton()
@@ -36,12 +36,12 @@ public class CommonDialogs {
     /**
      * 输入弹窗
      *
-     * @param activity Activity
+     * @param context context
      * @param title    标题
      * @param listener 确认点击事件
      */
-    public static void showInput(Activity activity, String title, IDialog.OnClickListener listener) {
-        DialogComponents.create(activity, IInputDialog.class)
+    public static void showInput(Context context, String title, IDialog.OnClickListener listener) {
+        DialogComponents.create(context, IInputDialog.class)
                 .setTitle(title)
                 .setNegativeButton()
                 .setPositiveButton(listener)
@@ -51,13 +51,13 @@ public class CommonDialogs {
     /**
      * 列表弹窗
      *
-     * @param activity Activity
+     * @param context context
      * @param title    标签
      * @param items    列表
      * @param listener 点击事件
      */
-    public static void showList(Activity activity, String title, CharSequence[] items, IDialog.OnItemClickListener listener) {
-        DialogComponents.create(activity, IListDialog.class)
+    public static void showList(Context context, String title, CharSequence[] items, IDialog.OnItemClickListener listener) {
+        DialogComponents.create(context, IListDialog.class)
                 .setItems(items)
                 .setOnItemClickListener(listener)
                 .setTitle(title)
@@ -69,13 +69,13 @@ public class CommonDialogs {
      * <p>
      * 点击确认后自动消失
      *
-     * @param activity Activity
+     * @param context context
      * @param title    标题
      * @param message  内容
      * @param listener 确认回调
      */
-    public static void showWarning(Activity activity, String title, String message, IDialog.OnClickListener listener) {
-        DialogComponents.create(activity, ITextDialog.class)
+    public static void showWarning(Context context, String title, String message, IDialog.OnClickListener listener) {
+        DialogComponents.create(context, ITextDialog.class)
                 .setText(message)
                 .setNegativeButton()
                 .setPositiveButton(new IDialog.OnClickListener() {
