@@ -6,11 +6,12 @@ import com.linsh.common.entity.IRemark;
 import com.linsh.common.entity.IType;
 import com.linsh.common.entity.Remark;
 import com.linsh.common.entity.Type;
+import com.linsh.lshutils.utils.ArrayUtilsEx;
 import com.linsh.utilseverywhere.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Stack;
 
 /**
  * <pre>
@@ -27,29 +28,46 @@ public class TypeInfoParser {
      */
     @NonNull
     public static List<IType> parse(List<String> lines) {
-        Type root = new Type(0, "root", null, false, false);
-        int index = 0;
-        while (index < lines.size()) {
+        return parse(lines, true);
+    }
+
+    /**
+     * 解析 Info 文件行
+     *
+     * @param lines               文件行数据
+     * @param excludeEmptyContent 是否排除没有内容的类型（默认排除）
+     */
+    @NonNull
+    public static List<IType> parse(List<String> lines, boolean excludeEmptyContent) {
+        Stack<IType> levels = new Stack<>();
+        levels.push(new Type(0, "root", null, false, false));
+        for (String line : lines) {
             int level;
-            String line = lines.get(index++);
-            if ((level = lastIndexOf(line, '#')) > 0 || (level = lastIndexOf(line, '*')) > 0) {
-                boolean isHide = line.startsWith("*");
-                Type parent = (Type) getParentType(root, level);
+            // 根据 # * 个数来计算等级
+            if ((level = TypeInfoTool.parseLevel(line)) > 0) {
+                // * 代表隐藏类型
+                boolean isHide = TypeInfoTool.isHide(line);
+                // 获取父 Type
+                Type parent = (Type) getParentType(levels, level);
                 if (parent != null) {
                     line = line.substring(level).trim();
                     String[] args = line.split("[:：]", 2);
                     String name = args[0].trim();
                     String content = args.length > 1 ? args[1].trim() : "";
-                    if (level < 2 || StringUtils.notEmpty(content)) {
+                    if (level < 2 || !excludeEmptyContent || StringUtils.notEmpty(content)) {
                         if (parent.getSubTypes() == null) {
                             parent.setSubTypes(new ArrayList<>());
                         }
-                        boolean encrypted = isEncrypted(content);
-                        parent.getSubTypes().add(new Type(level, name, content, isHide, encrypted));
+                        boolean encrypted = TypeInfoTool.isEncrypted(content);
+                        Type type = new Type(level, name, content, isHide, encrypted);
+                        parent.getSubTypes().add(type);
+                        levels.push(type);
                     }
                 }
-            } else if (line.trim().startsWith("-")) {
-                Type parentType = (Type) getParentType(root);
+                continue;
+            }
+            if (line.trim().startsWith("-")) {
+                Type parentType = (Type) levels.peek();
                 if (parentType != null) {
                     level = lastIndexOf(line, ' ');
                     if (parentType.getRemarks() == null) {
@@ -57,7 +75,7 @@ public class TypeInfoParser {
                     }
                     List<IRemark> remarks = getParentRemarks(parentType.getRemarks(), level);
                     String remark = line.trim().substring(1).trim();
-                    if (isEncrypted(remark)) {
+                    if (TypeInfoTool.isEncrypted(remark)) {
                         remarks.add(new Remark(level, remark, true));
                     } else {
                         remarks.add(new Remark(level, remark, false));
@@ -65,30 +83,22 @@ public class TypeInfoParser {
                 }
             }
         }
-        return root.getSubTypes();
+        return getParentType(levels, 1).getSubTypes();
     }
 
-    private static int lastIndexOf(String text, char c) {
+    private static int lastIndexOf(String text, Character... chars) {
         int index = 0;
-        while (index < text.length() && text.charAt(index) == c) {
+        while (index < text.length() && ArrayUtilsEx.contains(chars, text.charAt(index))) {
             index++;
         }
         return index;
     }
 
-    private static IType getParentType(IType root, int level) {
-        if (root == null || root.getSubTypes() == null || root.getSubTypes().size() == 0)
-            return root;
-        IType last = root.getSubTypes().get(root.getSubTypes().size() - 1);
-        if (Math.abs(last.getLevel()) < level)
-            return getParentType(last, level);
-        return root;
-    }
-
-    private static IType getParentType(IType root) {
-        if (root == null || root.getSubTypes() == null || root.getSubTypes().size() == 0)
-            return root;
-        return getParentType(root.getSubTypes().get(root.getSubTypes().size() - 1));
+    private static IType getParentType(Stack<IType> levels, int level) {
+        while (levels.size() > level) {
+            levels.pop();
+        }
+        return levels.peek();
     }
 
     private static List<IRemark> getParentRemarks(List<IRemark> remarks, int level) {
@@ -101,20 +111,5 @@ public class TypeInfoParser {
             return getParentRemarks(last.getSubRemarks(), level);
         }
         return remarks;
-    }
-
-    public static String getStatusPersonPostFix(String personId) {
-        String postFix = "";
-        for (int i = personId.length() - 1; i >= 0; i--) {
-            char c = personId.charAt(i);
-            if (c == '*' || c == '$' || c == '+' || c == '#' || c == '?') {
-                postFix = c + postFix;
-            }
-        }
-        return postFix;
-    }
-
-    public static boolean isEncrypted(String text) {
-        return Pattern.compile("[*%^&]>").matcher(text).find();
     }
 }
