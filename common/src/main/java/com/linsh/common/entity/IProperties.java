@@ -10,7 +10,10 @@ import io.realm.RealmList;
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2021/11/15
- *    desc   :
+ *    desc   : Properties 文件声明类
+ *
+ *             该文件类型目前用于：
+ *                 1. 朝花夕逝图片信息
  * </pre>
  */
 public interface IProperties {
