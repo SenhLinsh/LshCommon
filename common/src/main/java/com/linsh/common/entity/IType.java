@@ -7,12 +7,14 @@ import java.util.List;
  *    author : Senh Linsh
  *    github : https://github.com/SenhLinsh
  *    date   : 2022/02/21
- *    desc   :
+ *    desc   : 格式接口：类型
+ *
+ *            用于记录某事物的类型细节
  * </pre>
  */
 public interface IType {
 
-    // 类型等级, 一个 # 为一级
+    // 类型等级, 一个 # 或 * 为一级
     int getLevel();
 
     // 名称
@@ -31,5 +33,6 @@ public interface IType {
     boolean isEncrypted();
 
     // 是否为隐藏项
+    // # 为默认显示，* 为默认隐藏
     boolean isHidden();
 }

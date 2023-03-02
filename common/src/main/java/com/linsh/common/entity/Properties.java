@@ -90,6 +90,19 @@ public class Properties implements IProperties {
     }
 
     @Override
+    public String[] getArrayAsTag(String key) {
+        String value = map.get(key);
+        if (value != null) {
+            value = value.trim();
+            if (value.startsWith("#")) {
+                value = value.substring(1);
+            }
+            return value.split(" *# *");
+        }
+        return null;
+    }
+
+    @Override
     public RealmList<String> getRealmList(String key) {
         String[] array = getArray(key);
         if (array != null) {

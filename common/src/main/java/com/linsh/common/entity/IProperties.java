@@ -36,6 +36,8 @@ public interface IProperties {
 
     String[] getArray(String key);
 
+    String[] getArrayAsTag(String key);
+
     RealmList<String> getRealmList(String key);
 
     RealmList<String> getRealmListAsTag(String key);
