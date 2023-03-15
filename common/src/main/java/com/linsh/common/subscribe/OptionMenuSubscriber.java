@@ -74,6 +74,9 @@ public class OptionMenuSubscriber implements ActivitySubscribe.OnCreateOptionsMe
 
     private void addItem(Menu menu, ItemInfo itemInfo) {
         MenuItem item = menu.add(itemInfo.groupId, itemInfo.itemId, itemInfo.order, itemInfo.title);
+        if (itemInfo.icon > 0) {
+            item.setIcon(itemInfo.icon);
+        }
         item.setShowAsAction(itemInfo.showAsAction);
         if (itemInfo.listener != null) {
             subscribeListeners.put(item.hashCode(), itemInfo);
@@ -94,6 +97,7 @@ public class OptionMenuSubscriber implements ActivitySubscribe.OnCreateOptionsMe
         private int itemId;
         private int groupId;
         private int order;
+        private int icon;
         private int showAsAction;
         private onItemSelectedListener listener;
 
@@ -134,6 +138,14 @@ public class OptionMenuSubscriber implements ActivitySubscribe.OnCreateOptionsMe
             return this;
         }
 
+        public ItemInfo setIcon(int icon) {
+            this.icon = icon;
+            return this;
+        }
+
+        /**
+         * @param showAsAction 默认 {@link MenuItem#SHOW_AS_ACTION_NEVER}
+         */
         public ItemInfo setShowAsAction(int showAsAction) {
             this.showAsAction = showAsAction;
             return this;
