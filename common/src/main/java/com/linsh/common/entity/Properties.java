@@ -1,16 +1,17 @@
 package com.linsh.common.entity;
 
 import com.google.gson.internal.LinkedTreeMap;
+import com.linsh.base.entity.IProperties;
 import com.linsh.lshutils.utils.ArrayUtilsEx;
 import com.linsh.lshutils.utils.NumberUtilsEx;
 import com.linsh.utilseverywhere.ListUtils;
 import com.linsh.utilseverywhere.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import io.realm.RealmList;
 
 /**
  * <pre>
@@ -61,7 +62,7 @@ public class Properties implements IProperties {
     }
 
     @Override
-    public void put(String key, RealmList<?> value) {
+    public void put(String key, List<?> value) {
         if (value != null) {
             map.put(key, ListUtils.toString(value));
         } else {
@@ -103,21 +104,19 @@ public class Properties implements IProperties {
     }
 
     @Override
-    public RealmList<String> getRealmList(String key) {
+    public List<String> getList(String key) {
         String[] array = getArray(key);
         if (array != null) {
-            RealmList<String> list = new RealmList<>();
-            list.addAll(Arrays.asList(array));
-            return list;
+            return Arrays.asList(array);
         }
         return null;
     }
 
     @Override
-    public RealmList<String> getRealmListAsTag(String key) {
+    public List<String> getListAsTag(String key) {
         String value = map.get(key);
         if (value != null) {
-            RealmList<String> tags = new RealmList<>();
+            List<String> tags = new ArrayList<>();
             String[] args = value.split(" *# *");
             for (String arg : args) {
                 if (StringUtils.notEmpty(arg)) {

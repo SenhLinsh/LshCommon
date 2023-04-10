@@ -3,8 +3,8 @@ package com.linsh.common.tools;
 import androidx.annotation.NonNull;
 
 import com.linsh.base.LshLog;
-import com.linsh.common.entity.IProperties;
-import com.linsh.common.entity.IPropertyInfo;
+import com.linsh.base.entity.IProperties;
+import com.linsh.base.entity.IPropertyInfo;
 import com.linsh.common.entity.Properties;
 import com.linsh.lshutils.utils.StringUtilsEx;
 import com.linsh.utilseverywhere.ClassUtils;

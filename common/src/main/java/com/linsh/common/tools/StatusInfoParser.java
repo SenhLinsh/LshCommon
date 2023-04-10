@@ -1,7 +1,7 @@
 package com.linsh.common.tools;
 
-import com.linsh.common.entity.IProperties;
-import com.linsh.common.entity.IStatus;
+import com.linsh.base.entity.IProperties;
+import com.linsh.base.entity.IStatus;
 import com.linsh.common.entity.Status;
 
 import java.io.File;

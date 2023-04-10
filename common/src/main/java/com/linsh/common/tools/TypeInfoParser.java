@@ -2,8 +2,8 @@ package com.linsh.common.tools;
 
 import androidx.annotation.NonNull;
 
-import com.linsh.common.entity.IRemark;
-import com.linsh.common.entity.IType;
+import com.linsh.base.entity.IRemark;
+import com.linsh.base.entity.IType;
 import com.linsh.common.entity.Remark;
 import com.linsh.common.entity.Type;
 import com.linsh.lshutils.utils.ArrayUtilsEx;

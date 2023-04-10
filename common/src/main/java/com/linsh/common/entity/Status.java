@@ -1,5 +1,8 @@
 package com.linsh.common.entity;
 
+import com.linsh.base.entity.IProperties;
+import com.linsh.base.entity.IStatus;
+
 import java.util.List;
 
 /**

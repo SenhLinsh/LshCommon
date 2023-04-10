@@ -1,6 +1,6 @@
 package com.linsh.common.tools;
 
-import com.linsh.common.entity.IType;
+import com.linsh.base.entity.IType;
 import com.linsh.lshutils.utils.ArrayUtilsEx;
 import com.linsh.lshutils.utils.StringUtilsEx;
 

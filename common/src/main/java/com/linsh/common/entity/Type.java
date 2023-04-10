@@ -1,5 +1,8 @@
 package com.linsh.common.entity;
 
+import com.linsh.base.entity.IRemark;
+import com.linsh.base.entity.IType;
+
 import java.util.List;
 
 /**
