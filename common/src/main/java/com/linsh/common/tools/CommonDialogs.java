@@ -8,6 +8,8 @@ import com.linsh.dialog.text.IInputDialog;
 import com.linsh.dialog.text.IListDialog;
 import com.linsh.dialog.text.ITextDialog;
 
+import java.util.List;
+
 /**
  * <pre>
  *    author : Senh Linsh
@@ -22,8 +24,8 @@ public class CommonDialogs {
      * 提示弹窗
      *
      * @param context context
-     * @param title    标题
-     * @param message  内容
+     * @param title   标题
+     * @param message 内容
      */
     public static void showText(Context context, String title, String message) {
         DialogComponents.create(context, ITextDialog.class)
@@ -36,7 +38,7 @@ public class CommonDialogs {
     /**
      * 输入弹窗
      *
-     * @param context context
+     * @param context  context
      * @param title    标题
      * @param listener 确认点击事件
      */
@@ -51,7 +53,23 @@ public class CommonDialogs {
     /**
      * 列表弹窗
      *
-     * @param context context
+     * @param context  context
+     * @param title    标签
+     * @param items    列表
+     * @param listener 点击事件
+     */
+    public static void showList(Context context, String title, List<? extends CharSequence> items, IDialog.OnItemClickListener listener) {
+        DialogComponents.create(context, IListDialog.class)
+                .setItems(items)
+                .setOnItemClickListener(listener)
+                .setTitle(title)
+                .show();
+    }
+
+    /**
+     * 列表弹窗
+     *
+     * @param context  context
      * @param title    标签
      * @param items    列表
      * @param listener 点击事件
@@ -69,7 +87,7 @@ public class CommonDialogs {
      * <p>
      * 点击确认后自动消失
      *
-     * @param context context
+     * @param context  context
      * @param title    标题
      * @param message  内容
      * @param listener 确认回调
