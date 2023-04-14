@@ -36,6 +36,7 @@ public class PropertyInfoParser {
     /**
      * 解析 Info 文件行
      */
+    @NonNull
     public static <T extends IPropertyInfo> T parse(@NonNull Class<T> infoClass, @NonNull List<String> lines) throws Exception {
         IProperties properties = parse(lines);
         T instance = (T) ClassUtils.newInstance(infoClass);
@@ -46,6 +47,7 @@ public class PropertyInfoParser {
     /**
      * 解析 Info 文件行
      */
+    @NonNull
     public static <T extends IPropertyInfo> T parse(@NonNull Class<T> infoClass, @NonNull String content) throws Exception {
         IProperties properties = parse(Arrays.asList(content.split("\n")));
         T instance = (T) ClassUtils.newInstance(infoClass);
@@ -56,6 +58,7 @@ public class PropertyInfoParser {
     /**
      * 解析 Info 文件内容
      */
+    @NonNull
     public static IProperties parse(@NonNull String content) {
         return parse(Arrays.asList(content.split("\n")));
     }

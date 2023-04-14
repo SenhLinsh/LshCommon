@@ -74,10 +74,44 @@ public class CommonDialogs {
      * @param items    列表
      * @param listener 点击事件
      */
+    public static void showList(Context context, String title, List<? extends CharSequence> items, IDialog.OnItemClickListenerEx<CharSequence> listener) {
+        DialogComponents.create(context, IListDialog.class)
+                .setItems(items)
+                .setOnItemClickListener(listener == null ? null :
+                        (dialog, position) -> listener.onItemClick(dialog, items.get(position), position))
+                .setTitle(title)
+                .show();
+    }
+
+    /**
+     * 列表弹窗
+     *
+     * @param context  context
+     * @param title    标签
+     * @param items    列表
+     * @param listener 点击事件
+     */
     public static void showList(Context context, String title, CharSequence[] items, IDialog.OnItemClickListener listener) {
         DialogComponents.create(context, IListDialog.class)
                 .setItems(items)
                 .setOnItemClickListener(listener)
+                .setTitle(title)
+                .show();
+    }
+
+    /**
+     * 列表弹窗
+     *
+     * @param context  context
+     * @param title    标签
+     * @param items    列表
+     * @param listener 点击事件
+     */
+    public static void showList(Context context, String title, CharSequence[] items, IDialog.OnItemClickListenerEx<CharSequence> listener) {
+        DialogComponents.create(context, IListDialog.class)
+                .setItems(items)
+                .setOnItemClickListener(listener == null ? null :
+                        (dialog, position) -> listener.onItemClick(dialog, items[position], position))
                 .setTitle(title)
                 .show();
     }
@@ -96,13 +130,10 @@ public class CommonDialogs {
         DialogComponents.create(context, ITextDialog.class)
                 .setText(message)
                 .setNegativeButton()
-                .setPositiveButton(new IDialog.OnClickListener() {
-                    @Override
-                    public void onClick(IDialog dialog) {
-                        dialog.dismiss();
-                        if (listener != null) {
-                            listener.onClick(dialog);
-                        }
+                .setPositiveButton(dialog -> {
+                    dialog.dismiss();
+                    if (listener != null) {
+                        listener.onClick(dialog);
                     }
                 })
                 .setTitle(title)
