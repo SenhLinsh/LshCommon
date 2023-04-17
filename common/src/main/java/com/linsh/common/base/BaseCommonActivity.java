@@ -3,6 +3,8 @@ package com.linsh.common.base;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import com.linsh.base.LshThread;
 import com.linsh.base.mvp.BaseMvpActivity;
 import com.linsh.base.mvp.Contract;
@@ -17,8 +19,6 @@ import com.linsh.utilseverywhere.HandlerUtils;
 import com.linsh.utilseverywhere.ToastUtils;
 
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 /**
  * <pre>
