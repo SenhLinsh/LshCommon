@@ -21,13 +21,15 @@ public class Type implements IType {
     private List<IRemark> remarks;
     private List<IType> subTypes;
     private final boolean isHidden;
+    private final boolean isImportant;
     private final boolean isEncrypted;
 
-    public Type(int level, String name, String content, boolean isHidden, boolean isEncrypted) {
+    public Type(int level, String name, String content, boolean isHidden, boolean isImportant, boolean isEncrypted) {
         this.level = level;
         this.name = name;
         this.content = content;
         this.isHidden = isHidden;
+        this.isImportant = isImportant;
         this.isEncrypted = isEncrypted;
     }
 
@@ -64,6 +66,11 @@ public class Type implements IType {
     @Override
     public boolean isHidden() {
         return isHidden;
+    }
+
+    @Override
+    public boolean isImportant() {
+        return isImportant;
     }
 
     public void setRemarks(List<IRemark> remarks) {

@@ -16,8 +16,22 @@ import java.util.regex.Pattern;
  * </pre>
  */
 public class TypeInfoTool {
-
-    public static final Character[] CHARACTERS_LEVEL = {'#', '*'};
+    /**
+     * 常规层级
+     */
+    private static final char CHARACTER_LEVEL_NORMAL = '#';
+    /**
+     * 隐藏层级，默认不展示该层级数据
+     */
+    private static final char CHARACTER_LEVEL_HIDDEN = '*';
+    /**
+     * 重要层级，用于标注重要数据，如生日、号码等，便于进行特殊处理，进行重要提示或者导出
+     */
+    private static final char CHARACTER_LEVEL_IMPORTANT = '$';
+    /**
+     * 层级字符，几个层级字符代表多少层级
+     */
+    private static final Character[] CHARACTERS_LEVEL = {CHARACTER_LEVEL_NORMAL, CHARACTER_LEVEL_HIDDEN, CHARACTER_LEVEL_IMPORTANT};
 
     /**
      * 解析当前行数据的层级
@@ -36,14 +50,25 @@ public class TypeInfoTool {
      * 格式化当前层级，使用 # 或 * 表示
      */
     public static String formatLevel(IType type) {
-        return StringUtilsEx.jointStr(type.isHidden() ? "*" : "#", type.getLevel());
+        char c;
+        if (type.isHidden()) c = CHARACTER_LEVEL_HIDDEN;
+        else if (type.isHidden()) c = CHARACTER_LEVEL_IMPORTANT;
+        else c = CHARACTER_LEVEL_NORMAL;
+        return StringUtilsEx.jointStr(String.valueOf(c), type.getLevel());
     }
 
     /**
      * 当前行是否是隐藏类型
      */
     public static boolean isHide(String line) {
-        return line.startsWith("*");
+        return StringUtilsEx.startsWith(line, CHARACTER_LEVEL_HIDDEN);
+    }
+
+    /**
+     * 当前行是否是重要类型
+     */
+    public static boolean isImportant(String line) {
+        return StringUtilsEx.startsWith(line, CHARACTER_LEVEL_IMPORTANT);
     }
 
     /**
@@ -87,7 +112,7 @@ public class TypeInfoTool {
             }
             return -1;
         }
-        Matcher matcher = Pattern.compile("\n([#*]+) ").matcher(text);
+        Matcher matcher = Pattern.compile("\n([#*$]+) ").matcher(text);
         while (matcher.find(startIndex)) {
             int targetLevel = matcher.group(1).length();
             if (targetLevel == level) {
