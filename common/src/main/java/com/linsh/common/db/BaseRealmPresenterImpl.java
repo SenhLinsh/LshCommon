@@ -55,6 +55,29 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
     }
 
     /**
+     * 开始事务
+     */
+    protected void beginTransaction() {
+        mRealm.beginTransaction();
+    }
+
+    /**
+     * 提交事务
+     */
+    protected void commitTransaction() {
+        mRealm.commitTransaction();
+    }
+
+    /**
+     * 取消事务
+     */
+    protected void cancelTransaction() {
+        if (mRealm.isInTransaction()) {
+            mRealm.cancelTransaction();
+        }
+    }
+
+    /**
      * 添加并管理 RealmChangeListener
      * <p>
      * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
