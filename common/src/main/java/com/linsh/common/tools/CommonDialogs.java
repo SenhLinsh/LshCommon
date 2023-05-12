@@ -43,7 +43,21 @@ public class CommonDialogs {
      * @param listener 确认点击事件
      */
     public static void showInput(Context context, String title, IDialog.OnClickListener listener) {
+        showInput(context, title, null, null, listener);
+    }
+
+    /**
+     * 输入弹窗
+     *
+     * @param context  context
+     * @param title    标题
+     * @param hint     提示
+     * @param listener 确认点击事件
+     */
+    public static void showInput(Context context, String title, String text, String hint, IDialog.OnClickListener listener) {
         DialogComponents.create(context, IInputDialog.class)
+                .setHint(hint)
+                .setText(text)
                 .setTitle(title)
                 .setNegativeButton()
                 .setPositiveButton(listener)
