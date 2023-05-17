@@ -47,6 +47,8 @@ public interface CommonContract {
 
         void dismissListDialog();
 
+        void showInputDialog(String title, String hint, String text, IDialog.OnClickListener listener);
+
         void showLoadingDialog();
 
         void showLoadingDialog(boolean keepScreenOn);

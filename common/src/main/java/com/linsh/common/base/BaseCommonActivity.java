@@ -9,6 +9,7 @@ import com.linsh.base.LshThread;
 import com.linsh.base.mvp.BaseMvpActivity;
 import com.linsh.base.mvp.Contract;
 import com.linsh.common.activity.ActivityResultSubscriber;
+import com.linsh.common.tools.CommonDialogs;
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
 import com.linsh.dialog.loading.IKeepScreenOnLoadingDialog;
@@ -120,6 +121,13 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
     public void dismissListDialog() {
         HandlerUtils.postRunnable(() -> {
             dialogHelper.dismiss();
+        });
+    }
+
+    @Override
+    public void showInputDialog(String title, String hint, String text, IDialog.OnClickListener listener) {
+        HandlerUtils.postRunnable(() -> {
+            CommonDialogs.showInput(this, title, hint, text, dialog -> LshThread.presenter(() -> listener.onClick(dialog)));
         });
     }
 

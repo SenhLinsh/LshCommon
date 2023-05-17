@@ -8,6 +8,7 @@ import com.linsh.base.LshThread;
 import com.linsh.base.activity.impl.DelegateActivity;
 import com.linsh.base.mvp.BaseMvpViewImpl;
 import com.linsh.base.mvp.Contract;
+import com.linsh.common.tools.CommonDialogs;
 import com.linsh.dialog.DialogComponents;
 import com.linsh.dialog.IDialog;
 import com.linsh.dialog.loading.IKeepScreenOnLoadingDialog;
@@ -127,6 +128,13 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
     public void dismissListDialog() {
         HandlerUtils.postRunnable(() -> {
             DialogComponents.dismissAll(getActivity());
+        });
+    }
+
+    @Override
+    public void showInputDialog(String title, String hint, String text, IDialog.OnClickListener listener) {
+        HandlerUtils.postRunnable(() -> {
+            CommonDialogs.showInput(activity, title, hint, text, dialog -> LshThread.presenter(() -> listener.onClick(dialog)));
         });
     }
 
