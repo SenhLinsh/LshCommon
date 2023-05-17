@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.linsh.base.LshThread;
+import com.linsh.base.activity.base.BaseActivity;
 import com.linsh.base.mvp.BaseMvpActivity;
 import com.linsh.base.mvp.Contract;
 import com.linsh.common.activity.ActivityResultSubscriber;
@@ -43,6 +44,14 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
 
     @Override
     public Activity getActivity() {
+        return this;
+    }
+
+    public BaseActivity getBaseActivity() {
+        return this;
+    }
+
+    public BaseCommonActivity<P> getCommonActivity() {
         return this;
     }
 
