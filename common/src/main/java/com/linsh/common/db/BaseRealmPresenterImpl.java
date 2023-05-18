@@ -50,28 +50,28 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
         }
     }
 
-    protected Realm getRealm() {
+    public Realm getRealm() {
         return mRealm;
     }
 
     /**
      * 开始事务
      */
-    protected void beginTransaction() {
+    public void beginTransaction() {
         mRealm.beginTransaction();
     }
 
     /**
      * 提交事务
      */
-    protected void commitTransaction() {
+    public void commitTransaction() {
         mRealm.commitTransaction();
     }
 
     /**
      * 取消事务
      */
-    protected void cancelTransaction() {
+    public void cancelTransaction() {
         if (mRealm.isInTransaction()) {
             mRealm.cancelTransaction();
         }
@@ -82,7 +82,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      * <p>
      * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
      */
-    protected <T extends RealmModel> void addRealmChangeListener(RealmResults<T> results, RealmChangeListener<RealmResults<T>> listener) {
+    public <T extends RealmModel> void addRealmChangeListener(RealmResults<T> results, RealmChangeListener<RealmResults<T>> listener) {
         addRealmChangeListener(results, listener, false);
     }
 
@@ -93,7 +93,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      *
      * @param notifyWhenAdd 添加时是否进行通知. 如果 true, 在添加 RealmChangeListener 时, 会自动进行一次调用
      */
-    protected <T extends RealmModel> void addRealmChangeListener(RealmResults<T> results, RealmChangeListener<RealmResults<T>> listener, boolean notifyWhenAdd) {
+    public <T extends RealmModel> void addRealmChangeListener(RealmResults<T> results, RealmChangeListener<RealmResults<T>> listener, boolean notifyWhenAdd) {
         results.addChangeListener(listener);
         if (notifyWhenAdd && results.isLoaded()) {
             listener.onChange(results);
@@ -106,7 +106,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      * <p>
      * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
      */
-    protected <T extends RealmModel> void addRealmChangeListener(RealmList<T> realmList, RealmChangeListener<RealmList<T>> listener) {
+    public <T extends RealmModel> void addRealmChangeListener(RealmList<T> realmList, RealmChangeListener<RealmList<T>> listener) {
         addRealmChangeListener(realmList, listener, false);
     }
 
@@ -117,7 +117,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      *
      * @param notifyWhenAdd 添加时是否进行通知. 如果 true, 在添加 RealmChangeListener 时, 会自动进行一次调用
      */
-    protected <T extends RealmModel> void addRealmChangeListener(RealmList<T> realmList, RealmChangeListener<RealmList<T>> listener, boolean notifyWhenAdd) {
+    public <T extends RealmModel> void addRealmChangeListener(RealmList<T> realmList, RealmChangeListener<RealmList<T>> listener, boolean notifyWhenAdd) {
         realmList.addChangeListener(listener);
         if (notifyWhenAdd && realmList.isLoaded()) {
             listener.onChange(realmList);
@@ -130,7 +130,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      * <p>
      * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
      */
-    protected <T extends RealmObject> void addRealmChangeListener(T realmObject, RealmChangeListener<T> listener) {
+    public <T extends RealmObject> void addRealmChangeListener(T realmObject, RealmChangeListener<T> listener) {
         addRealmChangeListener(realmObject, listener, false);
     }
 
@@ -141,7 +141,7 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      *
      * @param notifyWhenAdd 添加时是否进行通知. 如果 true, 在添加 RealmChangeListener 时, 会自动进行一次调用
      */
-    protected <T extends RealmObject> void addRealmChangeListener(T realmObject, RealmChangeListener<T> listener, boolean notifyWhenAdd) {
+    public <T extends RealmObject> void addRealmChangeListener(T realmObject, RealmChangeListener<T> listener, boolean notifyWhenAdd) {
         realmObject.addChangeListener(listener);
         if (notifyWhenAdd && realmObject.isLoaded()) {
             listener.onChange(realmObject);
@@ -154,52 +154,52 @@ public abstract class BaseRealmPresenterImpl<V extends Contract.View> extends Ba
      * <p>
      * 由于 RealmChangeListener 添加后没有 remove 掉会造成内存泄露, 使用该方法会在 detachView 时自动进行 remove 操作
      */
-    protected void addRealmChangeListener(RealmChangeListener<Realm> listener) {
+    public void addRealmChangeListener(RealmChangeListener<Realm> listener) {
         getRealm().addChangeListener(listener);
         objectToRemoveListeners.add(listener);
     }
 
-    protected void removeRealmChangeListeners(RealmObject... realmObjects) {
+    public void removeRealmChangeListeners(RealmObject... realmObjects) {
         for (RealmObject realmObject : realmObjects) {
             removeRealmChangeListener(realmObject);
         }
     }
 
-    protected void removeRealmChangeListener(RealmObject realmObject) {
+    public void removeRealmChangeListener(RealmObject realmObject) {
         if (realmObject != null && realmObject.isValid()) {
             realmObject.removeAllChangeListeners();
         }
     }
 
-    protected void removeRealmChangeListener(RealmList<?> realmList) {
+    public void removeRealmChangeListener(RealmList<?> realmList) {
         if (realmList != null && realmList.isValid()) {
             realmList.removeAllChangeListeners();
         }
     }
 
-    protected void removeRealmChangeListener(RealmResults<?> realmResults) {
+    public void removeRealmChangeListener(RealmResults<?> realmResults) {
         if (realmResults != null && realmResults.isValid()) {
             realmResults.removeAllChangeListeners();
         }
     }
 
-    protected <E extends RealmObject> E copyFromRealm(E realmObject) {
+    public <E extends RealmObject> E copyFromRealm(E realmObject) {
         if (realmObject == null || !realmObject.isValid())
             return null;
         return mRealm.copyFromRealm(realmObject);
     }
 
-    protected <E extends RealmModel> List<E> copyFromRealm(RealmResults<E> realmResults) {
+    public <E extends RealmModel> List<E> copyFromRealm(RealmResults<E> realmResults) {
         if (realmResults == null || !realmResults.isValid())
             return null;
         return mRealm.copyFromRealm(realmResults);
     }
 
-    protected void checkCancelTransaction() {
+    public void checkCancelTransaction() {
         checkCancelTransaction(getRealm());
     }
 
-    protected void checkCancelTransaction(Realm... realms) {
+    public void checkCancelTransaction(Realm... realms) {
         for (Realm realm : realms) {
             if (realm.isInTransaction()) {
                 realm.cancelTransaction();
