@@ -56,6 +56,11 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
     }
 
     @Override
+    public void setActivityTitle(CharSequence title) {
+        setTitle(title);
+    }
+
+    @Override
     public void showTextDialog(String content) {
         showTextDialog(null, content, null, null, null, null);
     }

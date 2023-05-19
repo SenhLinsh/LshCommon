@@ -15,18 +15,15 @@ import com.linsh.dialog.loading.IKeepScreenOnLoadingDialog;
 import com.linsh.dialog.loading.ILoadingDialog;
 import com.linsh.dialog.text.IListDialog;
 import com.linsh.dialog.text.ITextDialog;
-import com.linsh.lshutils.utils.ToastUtilsEx;
-import com.linsh.utilseverywhere.HandlerUtils;
+import com.linsh.utilseverywhere.ToastUtils;
 
 import java.util.List;
 
 class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements CommonContract.View {
 
-    private Contract.View view;
     private DelegateActivity activity;
 
     public CommonViewImpl(Contract.View view) {
-        this.view = view;
         Context context = view.getContext();
         if (context instanceof DelegateActivity) {
             activity = (DelegateActivity) context;
@@ -49,6 +46,11 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
     @Override
     public Intent getIntent() {
         return activity.getIntent();
+    }
+
+    @Override
+    public void setActivityTitle(CharSequence title) {
+        LshThread.ui(() -> activity.setTitle(title));
     }
 
     @Override
@@ -84,7 +86,7 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
     private void showTextDialog(String title, String content,
                                 String positiveBtn, IDialog.OnClickListener onPositiveListener,
                                 String negativeBtn, IDialog.OnClickListener onNegativeListener) {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             DialogComponents.create(activity, ITextDialog.class)
                     .setText(content)
                     .setTitle(title)
@@ -102,7 +104,7 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
 
     @Override
     public void dismissTextDialog() {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             DialogComponents.dismissAll(getActivity());
         });
     }
@@ -110,7 +112,7 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
     @Override
     public void showListDialog(String title, List<? extends CharSequence> items,
                                IDialog.OnItemClickListener onItemClickListener, IDialog.OnItemClickListener onItemLongClickListener) {
-        DialogComponents.create(activity, IListDialog.class)
+        LshThread.ui(() -> DialogComponents.create(activity, IListDialog.class)
                 .setItems(items)
                 .setOnItemClickListener(onItemClickListener == null ? null : (IDialog.OnItemClickListener) (dialog, position) -> {
                     dialog.dismiss();
@@ -121,26 +123,26 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
                     LshThread.presenter(() -> onItemLongClickListener.onItemClick(dialog, position));
                 })
                 .setTitle(title)
-                .show();
+                .show());
     }
 
     @Override
     public void dismissListDialog() {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             DialogComponents.dismissAll(getActivity());
         });
     }
 
     @Override
     public void showInputDialog(String title, String hint, String text, IDialog.OnClickListener listener) {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             CommonDialogs.showInput(activity, title, hint, text, dialog -> LshThread.presenter(() -> listener.onClick(dialog)));
         });
     }
 
     @Override
     public void showLoadingDialog() {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             DialogComponents.create(activity, ILoadingDialog.class)
                     .show();
         });
@@ -148,7 +150,7 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
 
     @Override
     public void showLoadingDialog(boolean keepScreenOn) {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             DialogComponents.create(activity, IKeepScreenOnLoadingDialog.class)
                     .keepScreenOn(true)
                     .show();
@@ -157,7 +159,7 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
 
     @Override
     public void updateLoadingDialog(String progress) {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             IKeepScreenOnLoadingDialog dialog = DialogComponents.find(activity, IKeepScreenOnLoadingDialog.class);
             if (dialog != null) {
                 dialog.setProgress(progress)
@@ -168,26 +170,28 @@ class CommonViewImpl extends BaseMvpViewImpl<Contract.Presenter> implements Comm
 
     @Override
     public void dismissLoadingDialog() {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             DialogComponents.dismissAll(getActivity());
         });
     }
 
     @Override
     public void showToast(String content) {
-        ToastUtilsEx.postShowLong(content);
+        LshThread.ui(() -> {
+            ToastUtils.showLong(content);
+        });
     }
 
     @Override
     public void finishActivity() {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             activity.finish();
         });
     }
 
     @Override
     public void finishActivity(int resultCode) {
-        HandlerUtils.postRunnable(() -> {
+        LshThread.ui(() -> {
             activity.finishActivity(resultCode);
         });
     }

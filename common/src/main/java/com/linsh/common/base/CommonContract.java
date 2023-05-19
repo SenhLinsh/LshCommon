@@ -27,6 +27,8 @@ public interface CommonContract {
 
         Intent getIntent();
 
+        void setActivityTitle(CharSequence title);
+
         void showTextDialog(String content);
 
         void showTextDialog(String title, String content);
