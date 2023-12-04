@@ -95,6 +95,9 @@ public class Properties implements IProperties {
         String value = map.get(key);
         if (value != null) {
             value = value.trim();
+            if (value.isEmpty()) {
+                return null;
+            }
             if (value.startsWith("#")) {
                 value = value.substring(1);
             }
