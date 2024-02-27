@@ -40,7 +40,7 @@ public class TypeInfoParser {
     @NonNull
     public static List<IType> parse(List<String> lines, boolean excludeEmptyContent) {
         Stack<IType> levels = new Stack<>();
-        levels.push(new Type(0, "root", null, false, false, false));
+        levels.push(new Type(null, 0, "root", null, false, false, false));
         for (String line : lines) {
             int level;
             // 根据 # * $ 个数来计算等级
@@ -61,7 +61,7 @@ public class TypeInfoParser {
                             parent.setSubTypes(new ArrayList<>());
                         }
                         boolean encrypted = TypeInfoTool.isEncrypted(content);
-                        Type type = new Type(level, name, content, isHide, isImportant, encrypted);
+                        Type type = new Type(parent, level, name, content, isHide, isImportant, encrypted);
                         parent.getSubTypes().add(type);
                         levels.push(type);
                     }

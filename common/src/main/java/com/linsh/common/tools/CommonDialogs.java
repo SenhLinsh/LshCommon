@@ -36,6 +36,37 @@ public class CommonDialogs {
     }
 
     /**
+     * 提示弹窗
+     *
+     * @param context context
+     * @param title   标题
+     * @param message 内容
+     */
+    public static void showText(Context context, String title, String message, IDialog.OnClickListener confirmListener) {
+        DialogComponents.create(context, ITextDialog.class)
+                .setText(message)
+                .setTitle(title)
+                .setPositiveButton(confirmListener)
+                .show();
+    }
+
+    /**
+     * 提示弹窗
+     *
+     * @param context context
+     * @param title   标题
+     * @param message 内容
+     */
+    public static void showText(Context context, String title, String message, IDialog.OnClickListener confirmListener, IDialog.OnClickListener cancelListener) {
+        DialogComponents.create(context, ITextDialog.class)
+                .setText(message)
+                .setTitle(title)
+                .setPositiveButton(confirmListener)
+                .setNegativeButton(cancelListener)
+                .show();
+    }
+
+    /**
      * 输入弹窗
      *
      * @param context  context

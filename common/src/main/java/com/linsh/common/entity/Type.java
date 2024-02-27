@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class Type implements IType {
 
+    private final IType parent;
     private final int level;
     private final String name;
     private final String content;
@@ -24,13 +25,19 @@ public class Type implements IType {
     private final boolean isImportant;
     private final boolean isEncrypted;
 
-    public Type(int level, String name, String content, boolean isHidden, boolean isImportant, boolean isEncrypted) {
+    public Type(IType parent, int level, String name, String content, boolean isHidden, boolean isImportant, boolean isEncrypted) {
+        this.parent = parent;
         this.level = level;
         this.name = name;
         this.content = content;
         this.isHidden = isHidden;
         this.isImportant = isImportant;
         this.isEncrypted = isEncrypted;
+    }
+
+    @Override
+    public IType getParent() {
+        return parent;
     }
 
     @Override
