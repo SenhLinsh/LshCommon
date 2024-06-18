@@ -141,7 +141,7 @@ public class BaseCommonActivity<P extends Contract.Presenter> extends BaseMvpAct
     @Override
     public void showInputDialog(String title, String hint, String text, IDialog.OnClickListener listener) {
         HandlerUtils.postRunnable(() -> {
-            CommonDialogs.showInput(this, title, hint, text, dialog -> LshThread.presenter(() -> listener.onClick(dialog)));
+            CommonDialogs.showInput(this, title, text, hint, dialog -> LshThread.presenter(() -> listener.onClick(dialog)));
         });
     }
 
