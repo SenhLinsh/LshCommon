@@ -53,7 +53,7 @@ dependencies {
     api 'com.google.android.material:material:1.9.0'
     api 'com.google.code.gson:gson:2.8.6'
 
-    implementation 'io.realm:realm-android-library:10.11.1'
+    implementation 'io.realm:realm-android-library:10.15.0'
 
     //////////  个人
     try {
