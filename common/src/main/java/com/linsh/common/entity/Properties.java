@@ -71,6 +71,37 @@ public class Properties implements IProperties {
     }
 
     @Override
+    public void putTags(String key, String[] value) {
+        if (value != null) {
+            map.put(key, formatTags(Arrays.asList(value)));
+        } else {
+            map.remove(key);
+        }
+    }
+
+    @Override
+    public void putTags(String key, List<?> value) {
+        if (value != null) {
+            map.put(key, formatTags(value));
+        } else {
+            map.remove(key);
+        }
+    }
+
+    private String formatTags(List<?> it) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < it.size(); i++) {
+            Object item = it.get(i);
+            if (i == 0) {
+                sb.append("#").append(item.toString());
+            } else {
+                sb.append(" #").append(item.toString());
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String get(String key) {
         return map.get(key);
     }
