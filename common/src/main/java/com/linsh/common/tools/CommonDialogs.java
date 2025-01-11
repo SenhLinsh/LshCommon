@@ -87,6 +87,7 @@ public class CommonDialogs {
      */
     public static void showInput(Context context, String title, String text, String hint, IDialog.OnClickListener listener) {
         DialogComponents.create(context, IInputDialog.class)
+                .showKeyboard(true)
                 .setHint(hint)
                 .setText(text)
                 .setTitle(title)
